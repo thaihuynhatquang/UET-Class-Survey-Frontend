@@ -1,7 +1,7 @@
 <template>
   <v-container fluid fill-height>
     <v-layout align-center justify-center>
-      <v-flex xs12 sm10 md8 lg5>
+      <v-flex xs12 sm10 md8 lg5 xl5>
         <v-card class="rounded-card">
           <!-- <v-toolbar dark color="#43425D">
             <v-toolbar-title>Login</v-toolbar-title>
@@ -86,6 +86,7 @@ export default {
   methods: {
     onSignin () {
       console.log(this.email, this.password, 'Click!')
+      this.$router.replace('student/dashboard')
       //   firebase.auth().signInWithEmailAndPassword(this.email, this.password)
       //   .then(
       //     user => this.$router.replace('dashboard')

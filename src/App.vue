@@ -1,20 +1,21 @@
 <template>
   <v-app>
     <v-content id="backgroundImage">
-      <app-header></app-header>
-      <transition name="flip" mode="out-in">
+      <app-header v-if="['Login'].indexOf($route.name) > -1"></app-header>
         <router-view></router-view>
-      </transition>
+      <app-footer></app-footer>
     </v-content>
   </v-app>
 </template>
 
 <script>
 import Header from './components/UI/Header.vue'
+import Footer from './components/UI/Footer.vue'
 
 export default {
   components: {
-    appHeader: Header
+    appHeader: Header,
+    appFooter: Footer
   },
   name: 'App'
 }
@@ -26,39 +27,5 @@ export default {
     background-size: 100% 100%;
     background-position: top;
     background-attachment: fixed;
-  }
-
-  .flip-enter {
-      /*transform: rotateY(0deg);*/
-  }
-
-  .flip-enter-active {
-      animation: flip-in  0.5s ease-out forwards;
-  }
-
-  .flip-leave {
-      /*transform: rotateY(0deg);*/
-  }
-
-  .flip-leave-active {
-      animation: flip-out 0.5s ease-out forwards;
-  }
-
-  @keyframes flip-out {
-      from {
-          transform: rotateY(0deg);
-      }
-      to {
-          transform: rotateY(90deg);
-      }
-  }
-
-  @keyframes flip-in {
-      from {
-          transform: rotateY(90deg);
-      }
-      to {
-          transform: rotateY(0deg);
-      }
   }
 </style>
