@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-app light>
+    <v-app light id="app">
       <v-navigation-drawer id="backgroundImage" v-model="drawer" app dark>
         <v-content>
         </v-content>
@@ -13,48 +13,48 @@
           <v-icon>more_vert</v-icon>
         </v-btn>
       </v-toolbar>
-      <v-content>
-        <v-container fluid>
-          <router-view></router-view>
-        </v-container>
-      </v-content>
+      <course-overview></course-overview>
     </v-app>
   </div>
 </template>
 
 <script>
+import CourseOverview from './CourseOverview.vue'
 export default {
   data () {
     return {
       clipped: false,
-      drawer: true,
-      items: [
-        {
-          action: 'local_activity',
-          title: 'Attractions',
-          path: '/',
-          items: []
-        },
-        {
-          action: 'restaurant',
-          title: 'Breakfast',
-          path: '/breakfast',
-          items: []
-        }
-      ]
+      drawer: true
+      // items: [
+      //   {
+      //     action: 'local_activity',
+      //     title: 'Attractions',
+      //     path: '/',
+      //     items: []
+      //   },
+      //   {
+      //     action: 'restaurant',
+      //     title: 'Breakfast',
+      //     path: '/breakfast',
+      //     items: []
+      //   }
+      // ]
     }
+  },
+  components: {
+    courseOverview: CourseOverview
   }
 }
 </script>
 
-<style>
+<style scoped>
+#app {
+  background-color: #DBDBDB;
+}
 #backgroundImage {
   background-image: url('../../assets/Background.png');
   background-size: 100% 100%;
   background-position: top;
   background-attachment: fixed;
-},
-#colorText {
-  color:  #13115D;
 }
 </style>
