@@ -86,7 +86,7 @@ export default {
   methods: {
     onSignin () {
       console.log(this.email, this.password, 'Click!')
-      this.$router.replace('student/dashboard')
+      this.$router.replace('student')
       //   firebase.auth().signInWithEmailAndPassword(this.email, this.password)
       //   .then(
       //     user => this.$router.replace('dashboard')

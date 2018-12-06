@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/components/Auth/Login.vue'
-import Dashboard from '@/components/Student/Student.vue'
+import Student from '@/components/Student/Student.vue'
+import CourseOverview from '@/components/Student/CourseOverview'
+import UserProfile from '@/components/Student/UserProfile.vue'
 
 Vue.use(Router)
 
@@ -21,10 +23,27 @@ export default new Router({
       component: Login
     },
     {
-      path: '/student/dashboard',
-      name: 'Dashboard',
-      component: Dashboard
+      path: '/student',
+      name: 'Student',
+      component: Student,
+      children: [
+        {
+          path: '',
+          redirect: 'dashboard'
+        },
+        {
+          path: 'dashboard',
+          name: 'Course Overview',
+          component: CourseOverview
+        },
+        {
+          path: 'profile',
+          name: 'User Profile',
+          component: UserProfile
+        }
+      ]
     }
+
   ],
   mode: 'history'
 })

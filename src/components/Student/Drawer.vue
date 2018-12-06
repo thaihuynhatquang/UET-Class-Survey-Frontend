@@ -47,7 +47,7 @@ export default {
           text: 'Dashboard'
         },
         {
-          to: '/student/user-profile',
+          to: '/student/profile',
           icon: 'person',
           text: 'User Profile'
         },
