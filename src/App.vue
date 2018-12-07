@@ -2,9 +2,8 @@
   <v-app>
     <v-content>
       <v-img :src="image" height="100%">
-        <app-header v-if="['Login'].indexOf($route.name) > -1"></app-header>
-          <router-view></router-view>
-        <app-footer></app-footer>
+        <app-header v-if="['Login'].indexOf($route.name) > -1" />
+        <router-view></router-view>
       </v-img>
     </v-content>
   </v-app>
@@ -13,13 +12,11 @@
 <script>
 import { mapMutations, mapState } from 'vuex'
 import Header from './components/UI/Header.vue'
-import Footer from './components/UI/Footer.vue'
 
 export default {
   name: 'App',
   components: {
-    appHeader: Header,
-    appFooter: Footer
+    appHeader: Header
   },
   computed: {
     ...mapState('app', ['image']),
@@ -52,7 +49,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #backgroundImage {
     background-image: url('./assets/Background.png');
     background-size: 100% 100%;

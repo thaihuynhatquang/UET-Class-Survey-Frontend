@@ -1,5 +1,11 @@
 <template>
-  <v-navigation-drawer v-model="drawer" app dark mobile-break-point="991" width="300">
+  <v-navigation-drawer
+    v-model="drawer"
+    app
+    dark
+    mobile-break-point="991"
+    width="300"
+  >
     <v-img :src="image" height="100%" position="left">
       <v-layout class="fill-height" tag="v-list" column>
         <v-list-tile avatar>
@@ -53,7 +59,7 @@ export default {
         },
         {
           to: '/login',
-          icon: 'arrow_back',
+          icon: 'exit_to_app',
           text: 'Logout'
         }
       ]

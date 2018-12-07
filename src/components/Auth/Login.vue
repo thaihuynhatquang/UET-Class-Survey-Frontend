@@ -3,10 +3,6 @@
     <v-layout align-center justify-center>
       <v-flex xs12 sm10 md8 lg5 xl5>
         <v-card class="rounded-card">
-          <!-- <v-toolbar dark color="#43425D">
-            <v-toolbar-title>Login</v-toolbar-title>
-            <v-spacer></v-spacer>
-          </v-toolbar> -->
           <v-card-text>
             <h1 class="text-xs-center" style="color:#43425D;">Login</h1>
             <v-container>
@@ -18,13 +14,13 @@
                   <v-flex xs11>
                     <v-text-field
                       color="#43425D"
-                      name="email"
-                      label="Email"
-                      id="email"
-                      v-model="email"
-                      type="email"
+                      name="username"
+                      label="Username"
+                      id="username"
+                      v-model="username"
+                      type="text"
                       clearable
-                      :rules="[rules.required, rules.isEmail]"
+                      :rules="[rules.required]"
                       required>
                     </v-text-field>
                   </v-flex>
@@ -62,6 +58,11 @@
         </v-card>
       </v-flex>
     </v-layout>
+    <v-footer app clipped-left=false dark color="#43425D" class="pa-3 elevation-24" height="40px">
+      <v-spacer></v-spacer>
+      <!-- eslint-disable-next-line -->
+      <div>&copy<strong> 2018 QBD Team</strong></div>
+    </v-footer>
   </v-container>
 </template>
 
@@ -69,15 +70,11 @@
 export default {
   data () {
     return {
-      email: '',
+      username: '',
       password: '',
       confirmPassword: '',
       showPassword: false,
       rules: {
-        isEmail: value => {
-          const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-          return pattern.test(value) || 'Invalid e-mail.'
-        },
         required: value => !!value || 'Required.',
         counter: value => value.length >= 6 || 'At least 6 characters'
       }
@@ -85,7 +82,7 @@ export default {
   },
   methods: {
     onSignin () {
-      console.log(this.email, this.password, 'Click!')
+      console.log(this.username, this.password, 'Click!')
       this.$router.replace('student')
       //   firebase.auth().signInWithEmailAndPassword(this.email, this.password)
       //   .then(

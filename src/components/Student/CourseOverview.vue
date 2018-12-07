@@ -6,10 +6,12 @@
         <template v-for="(item, index) in items">
           <v-list-tile :key="index" class="my-4 mx-4 class-box">
             <v-list-tile-content>
-              <v-list-tile-title v-text="item.title"  id="colorText"></v-list-tile-title>
+              <v-list-tile-title v-text="item.title"  id="listItem"></v-list-tile-title>
             </v-list-tile-content>
             <v-spacer></v-spacer>
-            <v-btn class="rounded-button" dark color="#43425D" type="submit">Survey</v-btn>
+            <v-btn id="button" color="#43425D">
+              <div id="textButton">Survey</div>
+            </v-btn>
           </v-list-tile>
         </template>
         </v-list>
@@ -36,9 +38,14 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+#listItem {
+  color: #43425D;
+  font-size: 20px;
+  font-weight: bold;
+}
 #layout {
-  margin: 30px;
+  margin: 10px;
 }
 #card {
   border-radius: 20px;
@@ -47,7 +54,12 @@ export default {
   border: 2.5px solid #43425D;
   border-radius: 20px;
 }
-.rounded-button{
+#button {
   border-radius: 15px;
+  text-transform: none !important;
+}
+#textButton {
+  color: white;
+  font-size: 20px;
 }
 </style>
