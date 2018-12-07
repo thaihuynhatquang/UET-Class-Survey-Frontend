@@ -37,6 +37,15 @@ export default {
     appDrawer: Drawer,
     appFooter: Footer
   },
+  computed: {
+    isLoggedIn () {
+      return this.$store.getters.isLoggedIn
+    }
+  },
+  created () {
+    this.$store.dispatch('getUser')
+    this.$store.dispatch('student/getCourses')
+  },
   mounted () {
     this.onResponsiveInverted()
     window.addEventListener('resize', this.onResponsiveInverted)
@@ -44,7 +53,6 @@ export default {
   beforeDestroy () {
     window.removeEventListener('resize', this.onResponsiveInverted)
   },
-
   methods: {
     ...mapMutations('app', ['setDrawer', 'toggleDrawer']),
     onResponsiveInverted () {

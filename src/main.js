@@ -8,6 +8,7 @@ import App from '@/App'
 import router from '@/router'
 import store from '@/store'
 import Vuetify from 'vuetify'
+import Axios from 'axios'
 import 'vuetify/dist/vuetify.min.css'
 
 Vue.use(Vuetify, {
@@ -15,6 +16,12 @@ Vue.use(Vuetify, {
     mainColor: '#43425D'
   }
 })
+
+Vue.prototype.$http = Axios
+const token = localStorage.getItem('token')
+if (token) {
+  Vue.prototype.$http.defaults.headers.common['Authorization'] = token
+}
 
 // Sync store with router
 sync(store, router)

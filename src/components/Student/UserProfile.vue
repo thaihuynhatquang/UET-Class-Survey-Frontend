@@ -3,13 +3,13 @@
     <v-flex xs12 sm11 md10 lg7 xl4>
       <v-card id="card">
         <v-avatar class="mx-auto d-block" size="342">
-          <img src="https://randomuser.me/api/portraits/men/85.jpg">
+          <img :src="avatar">
         </v-avatar>
         <v-card-text class="text-xs-center">
-          <div id="role"><em>Student</em></div>
-          <div id="name"><strong>Thái Huy Nhật Quang</strong></div>
-          <div id="grade">QH-2016-I/CQ-C-CLC</div>
-          <div id="email">16021113@uet.vnu.edu.vn</div>
+          <div id="role"><em>{{ role }}</em></div>
+          <div id="name"><strong>{{ user.fullname }}</strong></div>
+          <div id="grade">{{ user.classname }}</div>
+          <div id="email">{{ user.vnuemail }}</div>
           <div id="courses"><strong>Total courses: 6</strong></div>
         </v-card-text>
       </v-card>
@@ -18,7 +18,18 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 
+export default {
+  computed: {
+    ...mapState({
+      // arrow functions can make the code very succinct!
+      user: state => state.user,
+      avatar: state => state.avatar,
+      role: state => state.role
+    })
+  }
+}
 </script>
 
 <style scoped>

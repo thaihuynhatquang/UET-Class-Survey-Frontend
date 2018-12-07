@@ -5,33 +5,45 @@
     dark
     mobile-break-point="991"
     width="300"
+    floating
+    persistent
   >
     <v-img :src="image" height="100%" position="left">
-      <v-layout class="fill-height" tag="v-list" column>
+      <v-layout tag="v-list" column fill-height>
         <v-list-tile avatar>
           <v-list-tile-avatar color="white">
             <v-img  :src="avatar" contain/>
           </v-list-tile-avatar>
           <v-list-tile-content>
-            <v-list-tile-title>Thái Huy Nhật Quang</v-list-tile-title>
-            <v-list-tile-sub-title>Student</v-list-tile-sub-title>
+            <v-list-tile-title>{{ fullname }}</v-list-tile-title>
+            <v-list-tile-sub-title>{{ role }}</v-list-tile-sub-title>
           </v-list-tile-content>
         </v-list-tile>
         <v-divider id="divider"/>
-        <v-list-tile
-          v-for="(link, i) in links"
-          :key="i"
-          :to="link.to"
-          :active-class="color"
-          avatar
-          class="v-list-item"
-        >
+        <v-list-tile :active-class="color" avatar to="/student/dashboard">
           <v-list-tile-action>
-            <v-icon>{{ link.icon }}</v-icon>
+            <v-icon>dashboard</v-icon>
           </v-list-tile-action>
-          <v-list-tile-title
-            v-text="link.text"
-          />
+          <v-list-tile-title>Dashboard</v-list-tile-title>
+        </v-list-tile>
+         <v-list-tile :active-class="color" avatar to="/student/profile">
+          <v-list-tile-action>
+            <v-icon>person</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-title>User Profile</v-list-tile-title>
+        </v-list-tile>
+        <v-list-tile :active-class="color" avatar @click.stop.prevent="onLogout">
+          <v-list-tile-action>
+            <v-icon>exit_to_app</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-title>Logout</v-list-tile-title>
+        </v-list-tile>
+        <v-spacer></v-spacer>
+        <v-list-tile id="logo">
+          <v-layout row fill-height justify-start align-center>
+              <img height="46" src="@/assets/logoUET.png">
+              <v-toolbar-title>UET CLASS SURVEY</v-toolbar-title>
+          </v-layout>
         </v-list-tile>
       </v-layout>
     </v-img>
@@ -44,7 +56,6 @@ import { mapMutations, mapState } from 'vuex'
 export default {
   data () {
     return {
-      avatar: 'https://randomuser.me/api/portraits/men/85.jpg',
       links:
       [
         {
@@ -66,6 +77,12 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      // arrow functions can make the code very succinct!
+      fullname: state => state.user.fullname,
+      avatar: state => state.avatar,
+      role: state => state.role
+    }),
     ...mapState('app', ['image', 'color']),
     drawer: {
       get () {
@@ -91,6 +108,12 @@ export default {
       } else {
         this.responsive = false
       }
+    },
+    onLogout () {
+      this.$store.dispatch('logout')
+        .then(() => {
+          this.$router.push('/login')
+        })
     }
   }
 }
@@ -102,5 +125,9 @@ export default {
   margin-right: 15px;
   margin-bottom: 30px;
   border-width: 1px;
+}
+#logo {
+  margin-top: auto;
+  margin-bottom: 30px;
 }
 </style>

@@ -83,29 +83,24 @@ export default {
   methods: {
     onSignin () {
       console.log(this.username, this.password, 'Click!')
-      this.$router.replace('student')
-      //   firebase.auth().signInWithEmailAndPassword(this.email, this.password)
-      //   .then(
-      //     user => this.$router.replace('dashboard')
-      //   )
-      //   .catch(
-      //     error => {
-      //       console.log(error)
-      //       var errorCode = error.code
-      //       var errorMessage = error.message
-      //       if (errorCode === 'auth/user-not-found') {
-      //         alert('Error: User not found')
-      //       } else if (errorCode === 'auth/wrong-password') {
-      //         alert('The password is incorrect')
-      //       } else alert(errorMessage)
-      //     }
-      //   )
+      let data = {
+        username: this.username,
+        password: this.password
+      }
+      this.$store.dispatch('login', data)
+        .then(() => {
+          this.$store.dispatch('getUser')
+            .then(() => {
+              let role = this.$store.getters.getRoleStatus
+              this.$router.replace(role)
+            })
+        })
+        .catch(err => console.log(err))
     }
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .rounded-card{
     border-radius: 20px;
