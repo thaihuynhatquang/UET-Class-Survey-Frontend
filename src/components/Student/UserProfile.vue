@@ -1,16 +1,16 @@
 <template>
-  <v-layout id="layout" align-center justify-center row fill-height>
+  <v-layout id="layout-user-profile" align-center justify-center row fill-height>
     <v-flex xs12 sm11 md10 lg7 xl4>
-      <v-card id="card">
+      <v-card id="card-user-profile">
         <v-avatar class="mx-auto d-block" size="342">
           <img :src="avatar">
         </v-avatar>
         <v-card-text class="text-xs-center">
-          <div id="role"><em>{{ role }}</em></div>
-          <div id="name"><strong>{{ user.fullname }}</strong></div>
-          <div id="grade">{{ user.classname }}</div>
-          <div id="email">{{ user.vnuemail }}</div>
-          <div id="courses"><strong>Total courses: 6</strong></div>
+          <div id="user-role"><em>{{ role }}</em></div>
+          <div id="user-name"><strong>{{ user.fullname }}</strong></div>
+          <div id="user-grade">{{ user.classname }}</div>
+          <div id="user-email">{{ user.vnuemail }}</div>
+          <div id="user-courses"><strong>Total courses: 6</strong></div>
         </v-card-text>
       </v-card>
     </v-flex>
@@ -33,40 +33,40 @@ export default {
 </script>
 
 <style scoped>
-#layout {
+#layout-user-profile {
   margin: 20px;
 }
-#card {
+#card-user-profile {
   border-radius: 20px;
   padding-top: 50px;
   padding-bottom: 20px;
   padding-left: 60px;
   padding-right: 60px;
 }
-#role {
+#user-role {
   margin: 12px;
   font-weight: semibold;
   color: #43425D;
   font-size: 30px;
 }
-#name {
+#user-name {
   margin: 12px;
   font-weight: black;
   color: #43425D;
   font-size: 30px;
 }
-#grade {
+#user-grade {
   margin: 12px;
   font-weight: bold;
   color: #43425D;
   font-size: 25px;
 }
-#email {
+#user-email {
   margin: 12px;
   color: #43425D;
   font-size: 25px;
 }
-#courses {
+#user-courses {
   margin: 12px;
   font-weight: semibold;
   color: #43425D;

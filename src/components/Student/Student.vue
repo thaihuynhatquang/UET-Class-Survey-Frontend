@@ -1,7 +1,7 @@
 <template>
     <v-container fluid fill-height id="background">
       <v-toolbar app>
-        <v-toolbar-title id="title" >
+        <v-toolbar-title id="title_student" >
           <strong>{{ $store.state.route.name }}</strong></v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon :ripple="false" v-if="responsive" to="/student/dashboard">
@@ -45,6 +45,7 @@ export default {
   created () {
     this.$store.dispatch('getUser')
     this.$store.dispatch('student/getCourses')
+    this.$store.dispatch('student/getForms')
   },
   mounted () {
     this.onResponsiveInverted()
@@ -70,7 +71,7 @@ export default {
 #background {
   background-color: #DBDBDB;
 },
-#title {
+#title_student {
   color:  #43425D;
   font-size: 25px;
 }

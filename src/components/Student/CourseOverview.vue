@@ -1,24 +1,24 @@
 <template>
-  <v-layout id="layout" align-start justify-center row fill-height>
+  <v-layout id="layout-course-overview" align-start justify-center row fill-height>
     <v-flex>
-      <v-card id="card">
+      <v-card id="card-course-overview">
         <v-list two-line >
         <template v-for="(item, index) in items">
           <v-list-tile :key="index" class="my-4 mx-4 class-box">
             <v-list-tile-content>
-              <v-list-tile-title v-text="item.subject + ' ' + '(' + item.course_id + ')' + ' - ' + item.lecturers"  id="listItem"></v-list-tile-title>
+              <span id="list-courses">{{ item.subject }} ({{ item.course_id }}) - {{ item.lecturers }}</span>
             </v-list-tile-content>
             <v-spacer></v-spacer>
 
             <v-dialog v-if="item.done === 0" v-model="dialog.dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
-              <v-btn slot="activator" id="button" color="#43425D" @click="getTitleDialog(item.subject + ' ' + '(' + item.course_id + ')' + ' - ' + item.lecturers)">
-                <div id="textButton">Survey</div>
+              <v-btn slot="activator" id="button_survey" color="#43425D" @click="getTitleDialog(item.subject + ' ' + '(' + item.course_id + ')' + ' - ' + item.lecturers)">
+                <div id="text-button-survey">Survey</div>
               </v-btn>
               <app-survey-detail :key="dialog.key" @closeDialog='dialog.dialog=$event' :title="dialog.title"/>
             </v-dialog>
             <v-tooltip v-else bottom>
-              <v-btn slot="activator" color="#43425D" id="button" disabled>
-                <div id="textButton">Survey</div>
+              <v-btn slot="activator" color="#43425D" id="button_survey" disabled>
+                <div id="text-button-survey">Survey</div>
               </v-btn>
               <span>Done</span>
             </v-tooltip>
@@ -62,26 +62,26 @@ export default {
 </script>
 
 <style scoped>
-#listItem {
+#list-courses {
   color: #43425D;
   font-size: 20px;
   font-weight: bold;
 }
-#layout {
+#layout-course-overview {
   margin: 10px;
 }
-#card {
+#card-course-overview {
   border-radius: 20px;
 }
 .class-box {
   border: 2.5px solid #43425D;
   border-radius: 20px;
 }
-#button {
+#button_survey {
   border-radius: 15px;
   text-transform: none !important;
 }
-#textButton {
+#text-button-survey {
   color: white;
   font-size: 20px;
 }
