@@ -11,6 +11,7 @@ export default {
           const token = resp.data.token
           localStorage.setItem('token', token)
           axios.defaults.headers.common['Authorization'] = token
+          axios.defaults.headers.put['Content-Type'] = 'application/json'
           commit('AUTH_SUCCESS', token)
           resolve(resp)
         })

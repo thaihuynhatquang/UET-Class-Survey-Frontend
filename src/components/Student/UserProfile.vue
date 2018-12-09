@@ -10,7 +10,7 @@
           <div id="user-name"><strong>{{ user.fullname }}</strong></div>
           <div id="user-grade">{{ user.classname }}</div>
           <div id="user-email">{{ user.vnuemail }}</div>
-          <div id="user-courses"><strong>Total courses: 6</strong></div>
+          <div id="user-courses"><strong>Total courses: {{ totalCourses }}</strong></div>
         </v-card-text>
       </v-card>
     </v-flex>
@@ -26,7 +26,8 @@ export default {
       // arrow functions can make the code very succinct!
       user: state => state.user,
       avatar: state => state.avatar,
-      role: state => state.role
+      role: state => state.role,
+      totalCourses: state => state.student.totalCourses
     })
   }
 }

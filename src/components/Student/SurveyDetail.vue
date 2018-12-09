@@ -12,28 +12,35 @@
     </v-toolbar>
     <v-layout align-start justify-center row fill-height>
       <v-flex>
-        <v-card>
-          <v-list two-line>
-            <template v-for="(item, index) in items">
-              <v-card :key="index" flat  class="my-4 mx-4 class-box">
-                <v-list-tile>
-                  <v-flex xl8 lg8 md8 sm6 xs6>
-                    <span id="listCriteria">{{ index + 1 }}. {{ item.criteria }}</span>
-                  </v-flex>
-                  <v-spacer></v-spacer>
-                  <v-radio-group row v-model="radioGroup.index" id="survey-radio-group">
-                    <v-radio
-                      v-for="n in 5"
-                      :key="n"
-                      :label= "`${n}`"
-                      :value="n"
-                      color="mainColor"
-                    ></v-radio>
-                  </v-radio-group>
-                </v-list-tile>
-              </v-card>
-            </template>
-          </v-list>
+        <v-card class="abcxyz">
+          <v-form @submit.prevent="onSubmit">
+            <v-list two-line>
+              <template v-for="(item, index) in radioGroup">
+                <v-card :key="index" flat  class="my-4 mx-4 class-box">
+                  <v-list-tile>
+                    <v-flex xl8 lg8 md8 sm6 xs6>
+                      <span id="listCriteria">{{ index + 1 }}. {{ item.criteria }}</span>
+                    </v-flex>
+                    <v-spacer></v-spacer>
+                    <v-radio-group row v-model="item.point" id="survey-radio-group">
+                      <v-radio
+                        v-for="n in 5"
+                        :key="n"
+                        :label= "`${n}`"
+                        :value="n"
+                        color="mainColor"
+                        required
+                      ></v-radio>
+                    </v-radio-group>
+                  </v-list-tile>
+                </v-card>
+              </template>
+            </v-list>
+            <v-layout row justify-center>
+              <v-btn id="button" color="mainColor" dark type="submit">Submit</v-btn>
+              <v-btn id="button" color="mainColor" dark>Cancel</v-btn>
+            </v-layout>
+          </v-form>
         </v-card>
       </v-flex>
     </v-layout>
@@ -50,6 +57,7 @@ export default {
   },
   data () {
     return {
+      points: [],
       radioGroup: []
     }
   },
@@ -57,7 +65,20 @@ export default {
     closeDialog () {
       this.dialog = false
       this.$emit('closeDialog', this.dialog)
+    },
+    onSubmit () {
+      console.log(this.radioGroup)
     }
+  },
+  created () {
+    for (let item of this.items) {
+      this.radioGroup.push({
+        criteria_id: item.id,
+        criteria: item.criteria,
+        point: 1
+      })
+    }
+    console.log(this.radioGroup)
   },
   computed: {
     ...mapState({
@@ -75,11 +96,12 @@ export default {
 }
 .class-box {
   border: 2.5px solid #43425D;
-  border-radius: 20px;
+  border-radius: 20px
 }
 #button {
   border-radius: 15px;
-  text-transform: none !important;
+  margin-left: 40px;
+  margin-right: 40px;
 }
 #textButton {
   color: white;
@@ -92,12 +114,14 @@ export default {
   background-color: #DBDBDB;
   padding: 20px;
 }
+.abcxyz {
+  padding-bottom: 30px;
+}
 .v-radio {
   flex-direction: column-reverse;
   text-align: center;
   justify-content: center;
   margin-right: 14px;
-
 }
 </style>
 
