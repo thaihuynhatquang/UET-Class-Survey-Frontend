@@ -103,7 +103,7 @@ export default {
       this.radioGroup.push({
         criteria_id: item.id,
         criteria: item.criteria,
-        point: 3
+        point: 0
       })
     }
   },

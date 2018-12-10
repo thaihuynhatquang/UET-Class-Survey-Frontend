@@ -45,6 +45,29 @@ let router = new Router({
           component: UserProfile
         }
       ]
+    },
+    {
+      path: '/student',
+      component: Student,
+      meta: {
+        requiresAuth: true
+      },
+      children: [
+        {
+          path: '',
+          redirect: 'dashboard'
+        },
+        {
+          path: 'dashboard',
+          name: 'Course Overview',
+          component: CourseOverview
+        },
+        {
+          path: 'profile',
+          name: 'User Profile',
+          component: UserProfile
+        }
+      ]
     }
   ],
   mode: 'history'

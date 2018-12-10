@@ -1,7 +1,7 @@
 <template>
     <v-container fluid fill-height id="background">
       <v-toolbar app>
-        <v-toolbar-title id="title_student" >
+        <v-toolbar-title id="title_lecturer" >
           <strong>{{ $store.state.route.name }}</strong></v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon :ripple="false" v-if="responsive" to="/student/dashboard">
@@ -10,12 +10,13 @@
         <v-btn icon :ripple="false" v-if="responsive" to="/student/profile">
           <v-icon color="#43425D">person</v-icon>
         </v-btn>
-        <v-btn icon :ripple="false" v-if="responsive" @click="onLogout">
+        <v-btn icon :ripple="false" v-if="responsive" to="/login">
           <v-icon color="#43425D">exit_to_app</v-icon>
         </v-btn>
       </v-toolbar>
       <appDrawer />
-      <router-view></router-view>
+      <!-- <router-view></router-view> -->
+      Hello Hello
       <app-footer/>
     </v-container>
 </template>
@@ -43,9 +44,9 @@ export default {
     }
   },
   created () {
-    this.$store.dispatch('getUser')
-    this.$store.dispatch('student/getCourses')
-    this.$store.dispatch('student/getForms')
+    // this.$store.dispatch('getUser')
+    // this.$store.dispatch('student/getCourses')
+    // this.$store.dispatch('student/getForms')
   },
   mounted () {
     this.onResponsiveInverted()
@@ -62,12 +63,6 @@ export default {
       } else {
         this.responsive = false
       }
-    },
-    onLogout () {
-      this.$store.dispatch('logout')
-        .then(() => {
-          this.$router.push('/login')
-        })
     }
   }
 }
@@ -77,7 +72,7 @@ export default {
 #background {
   background-color: #DBDBDB;
 },
-#title_student {
+#title_lecturer {
   color:  #43425D;
   font-size: 25px;
 }
