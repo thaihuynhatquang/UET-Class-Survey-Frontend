@@ -50,7 +50,7 @@ const actions = {
   },
   sendSurvey ({commit}, data) {
     return new Promise((resolve, reject) => {
-      axios.put('http://localhostL3000/api/report', data)
+      axios.put('http://localhost:3000/api/report', data)
         .then(resp => {
           console.log(resp)
           // commit('SEND_SURVEY', token)

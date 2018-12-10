@@ -23,7 +23,6 @@ import { mapState } from 'vuex'
 export default {
   computed: {
     ...mapState({
-      // arrow functions can make the code very succinct!
       user: state => state.user,
       avatar: state => state.avatar,
       role: state => state.role,

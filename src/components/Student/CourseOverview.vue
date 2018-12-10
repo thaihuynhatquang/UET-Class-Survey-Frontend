@@ -9,7 +9,7 @@
               <span id="list-courses">{{ item.subject }} ({{ item.course_id }}) - {{ item.lecturers }}</span>
             </v-list-tile-content>
             <v-spacer></v-spacer>
-            <v-btn v-if="item.done === 0" id="button_survey" color="#43425D" @click="getTitleDialog(item.subject + ' ' + '(' + item.course_id + ')' + ' - ' + item.lecturers)">
+            <v-btn v-if="item.done === 0" id="button_survey" color="#43425D" @click="getTitleDialog(item.course_id, item.subject + ' ' + '(' + item.course_id + ')' + ' - ' + item.lecturers)">
               <div id="text-button-survey">Survey</div>
             </v-btn>
             <v-tooltip v-else bottom>
@@ -21,9 +21,24 @@
           </v-list-tile>
         </template>
         </v-list>
+        <v-snackbar
+          top
+          v-model="snackbar.value"
+          :color="snackbar.colorSnackbar"
+          :timeout="snackbar.snackbarTimeout"
+        >
+          <v-icon>check_circle</v-icon>
+          <v-btn color="#66615B" flat @click="snackbar.value = false">{{ snackbar.snackbarMessage }}</v-btn>
+        </v-snackbar>
       </v-card>
         <v-dialog v-model="dialog.dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
-          <app-survey-detail :key="dialog.key" @closeDialog='dialog.dialog=$event' :title="dialog.title"/>
+          <app-survey-detail
+            :key="dialog.key"
+            @closeDialog='dialog.dialog=$event'
+            :title="dialog.title"
+            :course_id="dialog.id"
+            @showSnackbar="showSnackbar($event)"
+          />
         </v-dialog>
     </v-flex>
   </v-layout>
@@ -39,7 +54,14 @@ export default {
       dialog: {
         dialog: false,
         title: '',
-        key: 0
+        key: 0,
+        id: ''
+      },
+      snackbar: {
+        value: false,
+        snackbarMessage: '',
+        snackbarTimeout: 3000,
+        colorSnackbar: 'white'
       }
     }
   },
@@ -47,10 +69,15 @@ export default {
     appSurveyDetail: SurveyDetail
   },
   methods: {
-    getTitleDialog (val) {
-      this.dialog.title = val
-      this.dialog.key++
+    getTitleDialog (courseId, title) {
+      this.dialog.title = title
       this.dialog.dialog = true
+      this.dialog.id = courseId
+      this.dialog.key++
+    },
+    showSnackbar (message) {
+      this.snackbar.snackbarMessage = message
+      this.snackbar.value = true
     }
   },
   computed: {
