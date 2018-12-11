@@ -8,7 +8,6 @@
     </v-toolbar>
     <v-layout align-start justify-center row fill-height>
       <v-flex>
-        <v-card class="abcxyz">
           <v-form>
             <v-list two-line>
               <template v-for="(item, index) in radioGroup">
@@ -20,7 +19,6 @@
                     <v-spacer></v-spacer>
                     <v-radio-group
                       row
-                      :rules="[v => !!v || 'You must agree to continue!']"
                       v-model="item.point"
                       id="survey-radio-group">
                       <v-radio
@@ -47,7 +45,6 @@
               <v-btn class="button-in-dialog" color="mainColor" @click="closeDialog"><div class="text-button-survey">Cancel</div></v-btn>
             </v-layout>
           </v-form>
-        </v-card>
       </v-flex>
     </v-layout>
   </v-card>
@@ -144,11 +141,8 @@ export default {
   justify-content: flex-end;
 }
 .card-survey {
-  background-color: #DBDBDB;
+  background-color: #FFFFFF;
   padding: 20px;
-}
-.abcxyz {
-  padding-bottom: 30px;
 }
 .v-radio {
   flex-direction: column-reverse;

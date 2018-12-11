@@ -5,7 +5,8 @@ const namespaced = true
 const state = {
   courses: [],
   totalCourses: 0,
-  forms: []
+  surveyResult: [],
+  surveyInfo: {}
 }
 
 const mutations = {
@@ -13,9 +14,9 @@ const mutations = {
     state.courses = courses
     state.totalCourses = courses.length
   },
-  'SET_FORMS' (state, forms) {
-    state.forms = forms
-    console.log(state.forms)
+  'GET_RESULT' (state, result) {
+    state.surveyResult = result.resultTable
+    state.surveyInfo = result.surveyInfo
   }
 }
 
@@ -26,7 +27,6 @@ const actions = {
         .then(resp => {
           let courses = resp.data
           commit('SET_COURSES', courses)
-          console.log(courses)
           resolve(resp)
         })
         .catch(err => {
@@ -35,26 +35,13 @@ const actions = {
         })
     })
   },
-  getForms ({commit}) {
+  getResultSurvey ({commit}, data) {
     return new Promise((resolve, reject) => {
-      axios.get('http://localhost:3000/api/form')
+      axios.post('http://localhost:3000/api/result', data)
         .then(resp => {
-          let form = resp.data
-          commit('SET_FORMS', form)
-          resolve(resp)
-        })
-        .catch(err => {
-          console.log(err)
-          reject(err)
-        })
-    })
-  },
-  sendSurvey ({commit}, data) {
-    return new Promise((resolve, reject) => {
-      axios.put('http://localhost:3000/api/report', data)
-        .then(resp => {
-          console.log(resp)
-          // commit('SEND_SURVEY', token)
+          let result = resp.data
+          console.log(result)
+          commit('GET_RESULT', result)
           resolve(resp)
         })
         .catch(err => {
@@ -67,7 +54,7 @@ const actions = {
 
 const getters = {
   getCourses: state => state.courses,
-  getForms: state => state.forms
+  getSurveyResult: state => state.surveyResult
 }
 
 export default {

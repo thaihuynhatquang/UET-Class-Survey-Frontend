@@ -6,10 +6,15 @@
         <template v-for="(item, index) in items">
           <v-list-tile :key="index" class="my-4 mx-4 class-box">
             <v-list-tile-content>
-              <span id="list-courses">{{ item.subject }} ({{ item.course_id }}) - {{ item.lecturers }}</span>
+              <span id="list-courses">{{ item.subject }} ({{ item.course_id }}) - {{ item.lecturer }}</span>
             </v-list-tile-content>
             <v-spacer></v-spacer>
-            <v-btn v-if="item.done === 0" id="button_survey" color="#43425D" @click="getTitleDialog(item.course_id, item.subject + ' ' + '(' + item.course_id + ')' + ' - ' + item.lecturers)">
+            <v-btn
+              v-if="item.done === 0"
+              id="button_survey"
+              color="#43425D"
+              @click="getDialog(item.course_id, item.subject + ' ' + '(' + item.course_id + ')' + ' - ' + item.lecturer)"
+            >
               <div id="text-button-survey">Survey</div>
             </v-btn>
             <v-tooltip v-else bottom>
@@ -69,7 +74,7 @@ export default {
     appSurveyDetail: SurveyDetail
   },
   methods: {
-    getTitleDialog (courseId, title) {
+    getDialog (courseId, title) {
       this.dialog.title = title
       this.dialog.dialog = true
       this.dialog.id = courseId

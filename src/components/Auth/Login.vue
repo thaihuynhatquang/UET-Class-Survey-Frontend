@@ -91,8 +91,15 @@ export default {
         .then(() => {
           this.$store.dispatch('getUser')
             .then(() => {
-              let role = this.$store.getters.getRoleStatus
-              this.$router.replace(role)
+              let role = localStorage.getItem('roleStatus')
+              console.log(role)
+              if (role === 'Student') {
+                this.$router.push('/student')
+              } else if (role === 'Lecturer') {
+                this.$router.push('/lecturer')
+              } else if (role === 'Admin') {
+                this.$router.push('/admin')
+              }
             })
         })
         .catch(err => console.log(err))

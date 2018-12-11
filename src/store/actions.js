@@ -10,6 +10,19 @@ export default {
         .then(resp => {
           const token = resp.data.token
           localStorage.setItem('token', token)
+          let roleStatus
+          switch (resp.data.role) {
+            case 1:
+              roleStatus = 'Admin'
+              break
+            case 2:
+              roleStatus = 'Lecturer'
+              break
+            case 3:
+              roleStatus = 'Student'
+              break
+          }
+          localStorage.setItem('roleStatus', roleStatus)
           axios.defaults.headers.common['Authorization'] = token
           axios.defaults.headers.put['Content-Type'] = 'application/json'
           commit('AUTH_SUCCESS', token)
@@ -27,6 +40,7 @@ export default {
     return new Promise((resolve, reject) => {
       commit('LOGOUT')
       localStorage.removeItem('token')
+      localStorage.removeItem('roleStatus')
       delete axios.defaults.headers.common['Authorization']
       resolve()
     })
@@ -38,7 +52,6 @@ export default {
         .then(resp => {
           let data = resp.data
           commit('SET_USER', data)
-          commit('SET_ROLE', data.role)
           commit('SET_AVATAR', data.avatar)
           resolve(resp)
         })

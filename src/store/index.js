@@ -5,6 +5,7 @@ import actions from './actions'
 import getters from './getters'
 import app from './modules/app'
 import student from './modules/student'
+import lecturer from './modules/lecturer'
 import mutations from './mutations'
 import state from './state'
 
@@ -17,7 +18,8 @@ const store = new Vuex.Store({
   state,
   modules: {
     app,
-    student
+    student,
+    lecturer
   }
 })
 

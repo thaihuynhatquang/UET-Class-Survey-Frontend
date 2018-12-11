@@ -4,6 +4,6 @@ export default {
   status: '',
   token: localStorage.getItem('token') || '',
   user: {},
-  role: '',
+  role: localStorage.getItem('roleStatus') || '',
   avatar: ''
 }

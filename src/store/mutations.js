@@ -18,19 +18,6 @@ export default {
   'SET_USER' (state, data) {
     state.user = data
   },
-  'SET_ROLE' (state, role) {
-    switch (role) {
-      case 1:
-        state.role = 'Admin'
-        break
-      case 2:
-        state.role = 'Lecturer'
-        break
-      case 3:
-        state.role = 'Student'
-        break
-    }
-  },
   'SET_AVATAR' (state, avatar) {
     state.avatar = 'http://' + avatar
   }
