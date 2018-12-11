@@ -15,7 +15,6 @@ const mutations = {
   },
   'SET_FORMS' (state, forms) {
     state.forms = forms
-    console.log(state.forms)
   }
 }
 
@@ -26,7 +25,6 @@ const actions = {
         .then(resp => {
           let courses = resp.data
           commit('SET_COURSES', courses)
-          console.log(courses)
           resolve(resp)
         })
         .catch(err => {

@@ -1,17 +1,26 @@
 <template>
     <v-container fluid fill-height id="background">
       <v-toolbar app>
-        <v-toolbar-title id="title_student" >
+        <v-toolbar-title id="title-app" >
           <strong>{{ $store.state.route.name }}</strong></v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon :ripple="false" v-if="responsive" to="/student/dashboard">
-          <v-icon color="#43425D">dashboard</v-icon>
+          <v-tooltip bottom>
+            <v-icon slot="activator" color="#43425D">dashboard</v-icon>
+            <span class="text-tooltip">Dashboard</span>
+          </v-tooltip>
         </v-btn>
         <v-btn icon :ripple="false" v-if="responsive" to="/student/profile">
-          <v-icon color="#43425D">person</v-icon>
+          <v-tooltip bottom>
+            <v-icon slot="activator" color="#43425D">person</v-icon>
+            <span class="text-tooltip">User Profile</span>
+          </v-tooltip>
         </v-btn>
         <v-btn icon :ripple="false" v-if="responsive" @click="onLogout">
-          <v-icon color="#43425D">exit_to_app</v-icon>
+          <v-tooltip bottom>
+            <v-icon slot="activator" color="#43425D">exit_to_app</v-icon>
+            <span class="text-tooltip">Logout</span>
+          </v-tooltip>
         </v-btn>
       </v-toolbar>
       <appDrawer />
@@ -77,8 +86,12 @@ export default {
 #background {
   background-color: #DBDBDB;
 },
-#title_student {
+#title-app {
   color:  #43425D;
   font-size: 25px;
+}
+.text-tooltip {
+  color:  #FFF;
+  font-size: 14px;
 }
 </style>

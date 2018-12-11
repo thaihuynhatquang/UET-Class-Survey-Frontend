@@ -29,8 +29,8 @@ export default {
           resolve(resp)
         })
         .catch(err => {
-          commit('AUTH_ERROR')
           localStorage.removeItem('token')
+          commit('AUTH_ERROR')
           reject(err)
         })
     })

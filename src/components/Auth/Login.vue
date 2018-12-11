@@ -63,6 +63,15 @@
       <!-- eslint-disable-next-line -->
       <div>&copy<strong> 2018 QBD Team</strong></div>
     </v-footer>
+    <v-snackbar
+      top
+      v-model="snackbar.value"
+      :color="snackbar.colorSnackbar"
+      :timeout="snackbar.snackbarTimeout"
+    >
+      <v-icon>warning</v-icon>
+      <v-btn color="#66615B" flat @click="snackbar.value = false">{{ snackbar.snackbarMessage }}</v-btn>
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -77,12 +86,17 @@ export default {
       rules: {
         required: value => !!value || 'Required.',
         counter: value => value.length >= 6 || 'At least 6 characters'
+      },
+      snackbar: {
+        value: false,
+        snackbarMessage: '',
+        snackbarTimeout: 3000,
+        colorSnackbar: '#FFFFFF'
       }
     }
   },
   methods: {
     onSignin () {
-      console.log(this.username, this.password, 'Click!')
       let data = {
         username: this.username,
         password: this.password
@@ -92,7 +106,6 @@ export default {
           this.$store.dispatch('getUser')
             .then(() => {
               let role = localStorage.getItem('roleStatus')
-              console.log(role)
               if (role === 'Student') {
                 this.$router.push('/student')
               } else if (role === 'Lecturer') {
@@ -102,7 +115,10 @@ export default {
               }
             })
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+          this.snackbar.snackbarMessage = err.response.data.message
+          this.snackbar.value = true
+        })
     }
   }
 }

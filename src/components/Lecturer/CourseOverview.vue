@@ -58,7 +58,6 @@ export default {
       let data = {
         course_id: courseId
       }
-      console.log(data)
       this.$store.dispatch('lecturer/getResultSurvey', data)
     }
   },

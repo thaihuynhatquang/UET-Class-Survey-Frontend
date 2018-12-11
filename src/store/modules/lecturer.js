@@ -40,7 +40,6 @@ const actions = {
       axios.post('http://localhost:3000/api/result', data)
         .then(resp => {
           let result = resp.data
-          console.log(result)
           commit('GET_RESULT', result)
           resolve(resp)
         })

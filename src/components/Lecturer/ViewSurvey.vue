@@ -82,6 +82,9 @@
         <span class="text-survey-info"><strong>- STD2:</strong> độ lệch chuẩn  của các tiêu chí dựa trên dữ liệu phản hồi của sinh viên về các môn học mà thầy/cô đã thực hiện giảng dạy</span><br>
       </v-flex>
     </v-layout>
+    <v-layout row wrap align-start justify-center>
+      <v-btn @click="closeDialog" class="buttonCloseDialog" color="mainColor"><span class='text-button'>Close</span></v-btn>
+    </v-layout>
   </v-card>
 </template>
 
@@ -142,5 +145,13 @@ export default {
   color: #43425D;
   font-size: 12px;
   font-weight: bold;
+}
+.buttonCloseDialog {
+  margin-bottom: 30px;
+  border-radius: 15px;
+}
+.text-button {
+  color: white;
+  font-size: 15px;
 }
 </style>

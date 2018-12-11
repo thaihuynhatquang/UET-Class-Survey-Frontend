@@ -78,7 +78,7 @@ let router = new Router({
         },
         {
           path: 'dashboard',
-          name: 'Course Overviewx',
+          name: 'Course Overview',
           component: LecturerCourseOverview,
           meta: { requiresAuth: true },
           beforeEnter (to, from, next) {
@@ -117,7 +117,6 @@ router.beforeEach((to, from, next) => {
     next('/login')
   } else if (!requiresAuth && isLoggedIn) {
     let role = localStorage.getItem('roleStatus')
-    console.log(role)
     if (role === 'Student') {
       next('/student')
     } else if (role === 'Lecturer') {
