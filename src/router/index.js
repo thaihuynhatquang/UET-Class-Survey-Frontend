@@ -92,7 +92,7 @@ let router = new Router({
         },
         {
           path: 'profile',
-          name: 'User Profilex',
+          name: 'User Profile',
           component: LecturerProfile,
           meta: { requiresAuth: true },
           beforeEnter (to, from, next) {

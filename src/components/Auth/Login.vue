@@ -1,8 +1,8 @@
 <template>
   <v-container fluid fill-height>
     <v-layout align-center justify-center>
-      <v-flex xs12 sm10 md8 lg5 xl5>
-        <v-card class="rounded-card">
+      <v-flex xs12 sm9 md7 lg5 xl4>
+        <v-card>
           <v-card-text>
             <h1 class="text-xs-center" style="color:#43425D;">Login</h1>
             <v-container>
@@ -47,7 +47,7 @@
                 </v-layout>
                 <v-layout row>
                   <v-flex text-xs-center>
-                    <v-btn class="rounded-button" dark color="#43425D" type="submit">
+                    <v-btn dark color="#43425D" type="submit">
                       Login
                     </v-btn>
                   </v-flex>
@@ -125,10 +125,5 @@ export default {
 </script>
 
 <style scoped>
-.rounded-card{
-    border-radius: 20px;
-}
-.rounded-button{
-    border-radius: 15px;
-}
+
 </style>

@@ -9,9 +9,9 @@
     <v-layout align-start justify-center row fill-height>
       <v-flex>
           <v-form>
-            <v-list two-line>
+            <v-list>
               <template v-for="(item, index) in radioGroup">
-                <v-card :key="index" flat  class="my-4 mx-4 class-box">
+                <v-card :key="index" flat  class="my-2 mx-2">
                   <v-list-tile>
                     <v-flex xl8 lg8 md8 sm6 xs6>
                       <span id="listCriteria">{{ index + 1 }}. {{ item.criteria }}</span>
@@ -31,6 +31,7 @@
                     </v-radio-group>
                   </v-list-tile>
                 </v-card>
+                <v-divider v-if="index + 1 < items.length" :key="`divider-${index}`"></v-divider>
               </template>
             </v-list>
             <v-layout row justify-center>
@@ -124,10 +125,6 @@ export default {
   font-size: 12px;
   font-weight: bold;
 }
-.class-box {
-  border: 2.5px solid #43425D;
-  border-radius: 20px
-}
 .button-in-dialog {
   border-radius: 15px;
   margin-left: 40px;
@@ -135,7 +132,7 @@ export default {
 }
 .text-button-survey {
   color: white;
-  font-size: 14px;
+  font-size: 12px;
 }
 #survey-radio-group {
   justify-content: flex-end;

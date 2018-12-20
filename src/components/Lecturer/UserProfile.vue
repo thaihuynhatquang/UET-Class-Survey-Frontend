@@ -37,7 +37,6 @@ export default {
   margin: 20px;
 }
 #card-user-profile {
-  border-radius: 20px;
   padding-top: 50px;
   padding-bottom: 20px;
   padding-left: 60px;
@@ -71,8 +70,5 @@ export default {
   font-weight: semibold;
   color: #43425D;
   font-size: 25px;
-}
-.rounded-button{
-  border-radius: 15px;
 }
 </style>

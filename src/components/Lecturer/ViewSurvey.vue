@@ -19,7 +19,7 @@
       <v-flex>
         <v-list three-line>
           <template v-for="(item, index) in surveyResult">
-            <v-card :key="index" flat  class="my-4 mx-4 class-box">
+            <v-card :key="index" flat  class="my-2 mx-2">
               <v-list-tile>
                 <v-flex xl6 lg6 md5 sm5 xs5>
                   <span id="listCriteria">{{ index + 1 }}. {{ item.criteria }}</span>
@@ -29,37 +29,37 @@
                   <v-layout justify-end row>
                     <v-flex>
                       <v-tooltip bottom>
-                        <span slot="activator" class="text-survey-info">M: <strong>{{ item.M }}</strong></span>
+                        <span style="cursor: pointer;" slot="activator" class="text-survey-info">M: <strong>{{ item.M }}</strong></span>
                         <span>Giá trị trung bình của các tiêu chí theo lớp học phần</span>
                       </v-tooltip>
                     </v-flex>
                     <v-flex>
                       <v-tooltip bottom>
-                        <span slot="activator" class="text-survey-info">STD: <strong>{{ item.STD }}</strong></span>
+                        <span style="cursor: pointer;" slot="activator" class="text-survey-info">STD: <strong>{{ item.STD }}</strong></span>
                         <span>Độ lệch chuẩn của các tiêu chí theo lớp học phần</span>
                       </v-tooltip>
                     </v-flex>
                     <v-flex>
                       <v-tooltip bottom>
-                        <span slot="activator" class="text-survey-info">M1: <strong>{{ item.M1 }}</strong></span>
+                        <span style="cursor: pointer;" slot="activator" class="text-survey-info">M1: <strong>{{ item.M1 }}</strong></span>
                         <span>Giá trị trung bình của các tiêu chí dựa trên dữ liệu phản hồi của sinh viên cho các giảng viên dạy cùng môn học</span>
                       </v-tooltip>
                     </v-flex>
                     <v-flex>
                       <v-tooltip bottom>
-                        <span slot="activator" class="text-survey-info">STD1: <strong>{{ item.STD1 }}</strong></span>
+                        <span style="cursor: pointer;" slot="activator" class="text-survey-info">STD1: <strong>{{ item.STD1 }}</strong></span>
                         <span>Độ lệch chuẩn của các tiêu chí dựa trên dữ liệu phản hồi của sinh viên cho các giảng viên dạy cùng môn học</span>
                       </v-tooltip>
                     </v-flex>
                     <v-flex>
                       <v-tooltip bottom>
-                        <span slot="activator" class="text-survey-info">M2: <strong>{{ item.M2 }}</strong></span>
+                        <span style="cursor: pointer;" slot="activator" class="text-survey-info">M2: <strong>{{ item.M2 }}</strong></span>
                         <span>Giá trị trung bình của các tiêu chí dựa trên dữ liệu phản hồi của sinh viên về các môn học đã thực hiện giảng dạy</span>
                       </v-tooltip>
                     </v-flex>
                     <v-flex>
                       <v-tooltip bottom>
-                        <span slot="activator" class="text-survey-info">STD2: <strong>{{ item.STD2 }}</strong></span>
+                        <span style="cursor: pointer;" slot="activator" class="text-survey-info">STD2: <strong>{{ item.STD2 }}</strong></span>
                         <span>Độ lệch chuẩn  của các tiêu chí dựa trên dữ liệu phản hồi của sinh viên về các môn học đã thực hiện giảng dạy</span>
                       </v-tooltip>
                     </v-flex>
@@ -67,6 +67,7 @@
                 </v-flex>
               </v-list-tile>
             </v-card>
+            <v-divider :key="`divider-${index}`"></v-divider>
           </template>
         </v-list>
       </v-flex>
@@ -135,11 +136,7 @@ export default {
 }
 .text-survey-info {
   color: #43425D;
-  font-size: 13px;
-}
-.class-box {
-  border: 2.5px solid #43425D;
-  border-radius: 20px
+  font-size: 12px;
 }
 #listCriteria {
   color: #43425D;
@@ -148,10 +145,9 @@ export default {
 }
 .buttonCloseDialog {
   margin-bottom: 30px;
-  border-radius: 15px;
 }
 .text-button {
   color: white;
-  font-size: 15px;
+  font-size: 12px;
 }
 </style>

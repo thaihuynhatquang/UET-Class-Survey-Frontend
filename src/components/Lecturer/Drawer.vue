@@ -38,13 +38,6 @@
           </v-list-tile-action>
           <v-list-tile-title>Logout</v-list-tile-title>
         </v-list-tile>
-        <v-spacer></v-spacer>
-        <v-list-tile id="logo">
-          <v-layout row fill-height justify-start align-center>
-              <img height="46" src="@/assets/logoUET.png">
-              <v-toolbar-title>UET CLASS SURVEY</v-toolbar-title>
-          </v-layout>
-        </v-list-tile>
       </v-layout>
     </v-img>
   </v-navigation-drawer>

@@ -2,9 +2,9 @@
   <v-layout id="layout-course-overview" align-start justify-center row fill-height>
     <v-flex>
       <v-card id="card-course-overview">
-        <v-list two-line >
+        <v-list>
         <template v-for="(item, index) in items">
-          <v-list-tile :key="index" class="my-4 mx-4 class-box">
+          <v-list-tile :key="index" class="my-2 mx-2">
             <v-list-tile-content>
               <span id="list-courses">{{ item.subject }} ({{ item.course_id }}) - {{ item.lecturer }}</span>
             </v-list-tile-content>
@@ -24,6 +24,7 @@
               <span>Done</span>
             </v-tooltip>
           </v-list-tile>
+          <v-divider v-if="index + 1 < items.length" :key="`divider-${index}`"></v-divider>
         </template>
         </v-list>
         <v-snackbar
@@ -96,25 +97,19 @@ export default {
 <style scoped>
 #list-courses {
   color: #43425D;
-  font-size: 20px;
+  font-size: 15px;
   font-weight: bold;
 }
 #layout-course-overview {
   margin: 10px;
 }
 #card-course-overview {
-  border-radius: 20px;
-}
-.class-box {
-  border: 2.5px solid #43425D;
-  border-radius: 20px;
 }
 #button_survey {
-  border-radius: 15px;
   text-transform: none !important;
 }
 #text-button-survey {
   color: white;
-  font-size: 20px;
+  font-size: 15px;
 }
 </style>
