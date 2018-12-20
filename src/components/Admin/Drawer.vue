@@ -20,17 +20,17 @@
           </v-list-tile-content>
         </v-list-tile>
         <v-divider id="divider"/>
-        <v-list-tile :active-class="color" avatar to="/student/dashboard">
-          <v-list-tile-action>
-            <v-icon>dashboard</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-title>Dashboard</v-list-tile-title>
-        </v-list-tile>
-         <v-list-tile :active-class="color" avatar to="/student/profile">
+        <v-list-tile :active-class="color" avatar to="/admin/accounts">
           <v-list-tile-action>
             <v-icon>person</v-icon>
           </v-list-tile-action>
-          <v-list-tile-title>User Profile</v-list-tile-title>
+          <v-list-tile-title>Manage Accounts</v-list-tile-title>
+        </v-list-tile>
+         <v-list-tile :active-class="color" avatar to="/admin/courses">
+          <v-list-tile-action>
+            <v-icon>dashboard</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-title>Manage Accounts</v-list-tile-title>
         </v-list-tile>
         <v-list-tile :active-class="color" avatar @click.stop.prevent="onLogout">
           <v-list-tile-action>

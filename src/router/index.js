@@ -8,6 +8,9 @@ import StudentCourseOverview from '@/components/Student/CourseOverview'
 import LecturerCourseOverview from '@/components/Lecturer/CourseOverview'
 import StudentProfile from '@/components/Student/UserProfile.vue'
 import LecturerProfile from '@/components/Lecturer/UserProfile.vue'
+import Admin from '@/components/Admin/Admin.vue'
+import ManageAccounts from '@/components/Admin/ManageAccounts'
+import ManageCourses from '@/components/Admin/ManageCourses'
 
 Vue.use(Router)
 
@@ -104,6 +107,46 @@ let router = new Router({
             }
           }
         }
+      ]
+    },
+    {
+      path: '/admin',
+      component: Admin,
+      meta: { requiresAuth: true },
+      children: [
+        {
+          path: '/',
+          redirect: 'accounts'
+        },
+        {
+          path: 'accounts',
+          name: 'Manage Account',
+          component: ManageAccounts,
+          meta: { requiresAuth: true },
+          beforeEnter (to, from, next) {
+            let role = localStorage.getItem('roleStatus')
+            if (role === 'Admin') {
+              next()
+            } else {
+              next('/')
+            }
+          }
+        },
+        {
+          path: 'courses',
+          name: 'Manage Courses',
+          component: ManageCourses,
+          meta: { requiresAuth: true },
+          beforeEnter (to, from, next) {
+            let role = localStorage.getItem('roleStatus')
+            if (role === 'Admin') {
+              next()
+            } else {
+              next('/')
+            }
+          }
+        }
+
       ]
     }
   ],

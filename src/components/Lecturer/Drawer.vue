@@ -49,32 +49,14 @@ import { mapMutations, mapState } from 'vuex'
 export default {
   data () {
     return {
-      links:
-      [
-        {
-          to: '/lecturer/dashboard',
-          icon: 'dashboard',
-          text: 'Dashboard'
-        },
-        {
-          to: '/lecturer/profile',
-          icon: 'person',
-          text: 'User Profile'
-        },
-        {
-          to: '/login',
-          icon: 'exit_to_app',
-          text: 'Logout'
-        }
-      ]
+      role: localStorage.getItem('roleStatus')
     }
   },
   computed: {
     ...mapState({
       // arrow functions can make the code very succinct!
       fullname: state => state.user.fullname,
-      avatar: state => state.avatar,
-      role: state => state.role
+      avatar: state => state.avatar
     }),
     ...mapState('app', ['image', 'color']),
     drawer: {
