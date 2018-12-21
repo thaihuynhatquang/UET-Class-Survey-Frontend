@@ -12,7 +12,7 @@
       <v-layout tag="v-list" column fill-height>
         <v-list-tile avatar>
           <v-list-tile-avatar color="white">
-            <v-img  :src="avatar" contain/>
+            <v-img :src="avatar" />
           </v-list-tile-avatar>
           <v-list-tile-content>
             <v-list-tile-title>{{ fullname }}</v-list-tile-title>

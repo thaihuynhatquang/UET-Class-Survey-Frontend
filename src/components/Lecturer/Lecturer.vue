@@ -54,7 +54,6 @@ export default {
   created () {
     this.$store.dispatch('getUser')
     this.$store.dispatch('lecturer/getCourses')
-    // this.$store.dispatch('student/getForms')
   },
   mounted () {
     this.onResponsiveInverted()

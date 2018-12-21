@@ -5,5 +5,5 @@ export default {
   authStatus: state => state.status,
   getRoleStatus: state => state.role,
   getUser: state => state.user,
-  getAvartar: state => state.avatar
+  getAvatar: state => state.avatar
 }

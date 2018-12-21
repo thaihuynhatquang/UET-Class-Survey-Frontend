@@ -20,5 +20,8 @@ export default {
   },
   'SET_AVATAR' (state, avatar) {
     state.avatar = 'http://' + avatar
+  },
+  'SET_TEMP_AVATAR' (state, avatar) {
+    state.avatar = avatar
   }
 }

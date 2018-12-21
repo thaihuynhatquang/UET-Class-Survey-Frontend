@@ -37,10 +37,22 @@ const actions = {
   },
   getResultSurvey ({commit}, data) {
     return new Promise((resolve, reject) => {
-      axios.post('http://localhost:3000/api/result', data)
+      axios.post('https://localhost:3000/api/result', data)
         .then(resp => {
           let result = resp.data
           commit('GET_RESULT', result)
+          resolve(resp)
+        })
+        .catch(err => {
+          console.log(err)
+          reject(err)
+        })
+    })
+  },
+  changeAvatar ({commit}, data) {
+    return new Promise((resolve, reject) => {
+      axios.post('http://localhost:3000/api/upAvatar', data)
+        .then(resp => {
           resolve(resp)
         })
         .catch(err => {
