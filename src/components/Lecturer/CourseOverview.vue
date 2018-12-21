@@ -82,8 +82,6 @@ export default {
 #layout-course-overview {
   margin: 10px;
 }
-#card-course-overview {
-}
 #button_survey {
   text-transform: none !important;
 }

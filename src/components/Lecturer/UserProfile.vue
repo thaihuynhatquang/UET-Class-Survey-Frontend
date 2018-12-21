@@ -22,8 +22,17 @@
           <div id="user-courses"><strong>Total courses: {{ totalCourses }}</strong></div>
         </v-card-text>
         <v-card-text class="text-xs-center">
-          <v-btn v-show="showPreview" color="mainColor" dark @click="submitAvatar()">Save</v-btn>
+          <v-btn v-show="showAvatar" color="mainColor" dark @click="submitAvatar()">Save</v-btn>
         </v-card-text>
+      <v-snackbar
+        top
+        v-model="snackbar.value"
+        :color="snackbar.colorSnackbar"
+        :timeout="snackbar.snackbarTimeout"
+      >
+        <v-icon>check_circle</v-icon>
+        <v-btn color="#66615B" flat @click="snackbar.value = false">{{ snackbar.snackbarMessage }}</v-btn>
+      </v-snackbar>
       </v-card>
     </v-flex>
   </v-layout>
@@ -36,7 +45,13 @@ export default {
   data () {
     return {
       file: '',
-      showPreview: false
+      showAvatar: false,
+      snackbar: {
+        value: false,
+        snackbarMessage: 'Update Avatar successfully',
+        snackbarTimeout: 3000,
+        colorSnackbar: 'white'
+      }
     }
   },
   computed: {
@@ -53,7 +68,8 @@ export default {
       formData.append('file', this.file)
       this.$store.dispatch('lecturer/changeAvatar', formData)
         .then(() => {
-          this.showPreview = false
+          this.showAvatar = false
+          this.showSnackbar()
         })
         .catch((err) => {
           console.log(err)
@@ -64,7 +80,7 @@ export default {
       let reader = new FileReader()
       console.log(this.avatar)
       reader.addEventListener('load', function () {
-        this.showPreview = true
+        this.showAvatar = true
         this.$store.commit('SET_TEMP_AVATAR', reader.result)
       }.bind(this), false)
       if (this.file) {
@@ -72,6 +88,9 @@ export default {
           reader.readAsDataURL(this.file)
         }
       }
+    },
+    showSnackbar () {
+      this.snackbar.value = true
     }
   }
 }
