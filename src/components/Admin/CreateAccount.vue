@@ -10,8 +10,8 @@
           <h2 class="text-xs-left align-left">User Information</h2>
               <v-flex xs11>
                 <v-radio-group v-model="role" row>
-                  <v-radio label="Student" value="3" color="#43425D"></v-radio>
                   <v-radio label="Lecturer" value="2" color="#43425D"></v-radio>
+                  <v-radio label="Student" value="3" color="#43425D"></v-radio>
                 </v-radio-group>
               </v-flex>
                <v-flex xs11>
@@ -23,7 +23,7 @@
                   v-model="fullname"
                   type="text"
                   clearable
-                  :rules="[rules.required]"
+                  :rules="[rules.required, rules.counterName]"
                   required>
                 </v-text-field>
               </v-flex>
@@ -49,7 +49,7 @@
                   id="classname"
                   v-model="classname"
                   hint="At least 6 characters"
-                  :rules="[rules.required]"
+                  :rules="[rules.required, rules.validClassname]"
                   type="text"
                   clearable
                   required>
@@ -65,7 +65,7 @@
                   v-model="username"
                   type="text"
                   clearable
-                  :rules="[rules.required]"
+                  :rules="[rules.required, rules.validUsername,rules.counterName]"
                   required>
                 </v-text-field>
               </v-flex>
@@ -77,7 +77,7 @@
                   id="password"
                   v-model="password"
                   hint="At least 6 characters"
-                  :rules="[rules.required, rules.counter]"
+                  :rules="[rules.required, rules.counterPassword]"
                   :append-icon="showPassword ? 'visibility_off' : 'visibility'"
                   :type="showPassword ? 'text' : 'password'"
                   @click:append="showPassword = !showPassword"
@@ -100,6 +100,9 @@
           </v-layout>
           <v-layout row>
             <v-flex text-xs-center>
+              <v-btn dark color="#43425D" @click="closeDialog">
+                Cancel
+              </v-btn>
               <v-btn dark color="#43425D" type="submit">
                 Create
               </v-btn>
@@ -126,13 +129,22 @@ export default {
       showConfirmPassword: false,
       vnuemail: '',
       classname: '',
-      role: '3',
+      role: '2',
       rules: {
         required: value => !!value || 'Required.',
-        counter: value => value.length >= 6 || 'At least 6 characters',
+        counterName: value => value.length >= 3 || 'At least 3 charecters',
+        validUsername: value => {
+          const pattern = /^[[a-zA-Z0-9_]+$/
+          return pattern.test(value) || 'Username only contains characters, digits and "_"'
+        },
+        counterPassword: value => value.length >= 6 || 'At least 6 characters',
         isEmail: value => {
-          const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-          return pattern.test(value) || 'Invalid e-mail.'
+          const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@vnu.edu.vn$/
+          return pattern.test(value) || 'Email must be VNU mail. Ex: 16021113@vnu.edu.vn'
+        },
+        validClassname: value => {
+          const pattern = /^QH-20[0-9]{2}-I\/CQ-[a-zA-Z-]+$/
+          return pattern.test(value) || 'Example format: QH-2016-I/CQ-C-CLC'
         }
       }
     }
@@ -157,10 +169,17 @@ export default {
       console.log(data)
       this.$store.dispatch('admin/createAccount', data)
         .then(() => {
-          this.dialog = false
-          this.$emit('closeDialog', this.dialog)
+          let snackbarMessage = 'Create account successfully'
+          let showSnackbar = true
+          this.$emit('showSnackbar', showSnackbar)
+          this.$emit('snackbarMessage', snackbarMessage)
           this.$store.dispatch('admin/getAllAccounts')
+          this.closeDialog()
         })
+    },
+    closeDialog () {
+      this.dialog = false
+      this.$emit('closeDialog', this.dialog)
     }
   }
 }

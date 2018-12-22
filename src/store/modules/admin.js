@@ -40,13 +40,41 @@ const actions = {
 
   createAccount ({commit}, data) {
     return new Promise((resolve, reject) => {
-      axios.put('http://localhost:3000/api/account', data)
+      axios.post('http://localhost:3000/api/account', data)
         .then(resp => {
           console.log(resp.data)
           resolve(resp)
         })
         .catch(err => {
           console.log(err)
+          reject(err)
+        })
+    })
+  },
+
+  deleteAccount ({commit}, id) {
+    return new Promise((resolve, reject) => {
+      axios.delete('http://localhost:3000/api/account', { data: id })
+        .then(resp => {
+          console.log(resp.data)
+          resolve(resp)
+        })
+        .catch(err => {
+          console.log(err.response.data)
+          reject(err)
+        })
+    })
+  },
+
+  updatePassword ({commit}, data) {
+    return new Promise((resolve, reject) => {
+      axios.put('http://localhost:3000/api/passwordForAdmin', data)
+        .then(resp => {
+          console.log(resp.data)
+          resolve(resp)
+        })
+        .catch(err => {
+          console.log(err.response.data)
           reject(err)
         })
     })

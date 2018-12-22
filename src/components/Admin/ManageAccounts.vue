@@ -4,9 +4,13 @@
       <v-layout row>
         <v-spacer/>
         <v-btn color="mainColor" dark class="button-admin">Import List Accounts</v-btn>
-        <v-dialog v-model="dialog.dialog1" max-width="600px">
+        <v-dialog v-model="dialog.createAccount" max-width="600px">
           <v-btn slot="activator" color="mainColor" dark class="button-admin">Create New Account</v-btn>
-          <create-account @closeDialog='dialog.dialog1=$event'></create-account>
+          <create-account
+            @closeDialog='dialog.createAccount=$event'
+            @showSnackbar='snackbar.value=$event'
+            @snackbarMessage='snackbar.snackbarMessage=$event'>
+          </create-account>
         </v-dialog>
       </v-layout>
       <v-card id="card-course-overview">
@@ -16,6 +20,7 @@
           class="elevation-1 mytable"
           :pagination.sync="pagination"
           item-key="id"
+          :rows-per-page-items="[10]"
         >
           <template slot="headers" slot-scope="props">
             <tr>
@@ -38,8 +43,8 @@
               {{ props.item.username }}
               <br>
               <span>Edit</span>
-              <span>Delete</span>
-              <span>Update Password</span>
+              <span @click="[dialog.deleteAccount=true, getUserId(props.item.id)]" style="cursor: pointer;">Delete</span>
+              <span @click="[dialog.updatePassword=true, getUserId(props.item.id), getUser(props.item.fullname)]" style="cursor: pointer;">Update Password</span>
             </td>
             <td class="text-xs-left">{{ props.item.fullname }}</td>
             <td class="text-xs-left">{{ props.item.vnuemail }}</td>
@@ -48,12 +53,40 @@
         </v-data-table>
       </v-card>
     </v-flex>
+    <v-snackbar
+      top
+      v-model="snackbar.value"
+      :color="snackbar.colorSnackbar"
+      :timeout="snackbar.snackbarTimeout"
+    >
+      <v-icon>check_circle</v-icon>
+      <v-btn color="#66615B" flat @click="snackbar.value = false">{{ snackbar.snackbarMessage }}</v-btn>
+    </v-snackbar>
+    <v-dialog v-model="dialog.deleteAccount" max-width="400px">
+      <delete-account
+        @closeDialog='dialog.deleteAccount=$event'
+        @snackbarMessage='snackbar.snackbarMessage=$event'
+        @showSnackbar='snackbar.value=$event'
+        :userId="userId">
+      </delete-account>
+    </v-dialog>
+    <v-dialog v-model="dialog.updatePassword" max-width="600px">
+      <update-password
+        @closeDialog='dialog.updatePassword=$event'
+        @snackbarMessage='snackbar.snackbarMessage=$event'
+        @showSnackbar='snackbar.value=$event'
+        :userId="userId"
+        :name="name">
+      </update-password>
+    </v-dialog>
   </v-layout>
 </template>
 
 <script>
 import { mapState } from 'vuex'
 import CreateAccount from './CreateAccount.vue'
+import DeleteAccount from './DeleteAccount.vue'
+import UpdatePassword from './UpdatePassword.vue'
 
 export default {
   data () {
@@ -83,10 +116,18 @@ export default {
         sortBy: 'name'
       },
       dialog: {
-        dialog1: false,
-        dialog2: false,
-        dialog3: false
-      }
+        createAccount: false,
+        deleteAccount: false,
+        updatePassword: false
+      },
+      snackbar: {
+        value: false,
+        snackbarMessage: '',
+        snackbarTimeout: 3000,
+        colorSnackbar: 'white'
+      },
+      userId: '',
+      username: ''
     }
   },
   computed: {
@@ -102,19 +143,29 @@ export default {
         this.pagination.sortBy = column
         this.pagination.descending = false
       }
+    },
+    getUserId (userId) {
+      this.userId = userId.toString()
+      console.log(userId)
+    },
+    getUser (name) {
+      this.name = name
+      console.log(this.name)
     }
   },
   components: {
-    createAccount: CreateAccount
+    createAccount: CreateAccount,
+    deleteAccount: DeleteAccount,
+    updatePassword: UpdatePassword
   },
   watch: {
-    dialog1 (val) {
+    createAccount (val) {
       val || this.close()
     },
-    dialog2 (val) {
+    deleteAccount (val) {
       val || this.close()
     },
-    dialog3 (val) {
+    updatePassword (val) {
       val || this.close()
     }
   }
