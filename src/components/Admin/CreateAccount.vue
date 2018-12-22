@@ -19,7 +19,6 @@
                   color="#43425D"
                   name="fullname"
                   label="Fullname"
-                  id="fullname"
                   v-model="fullname"
                   type="text"
                   clearable
@@ -32,7 +31,6 @@
                   color="#43425D"
                   name="vnuemail"
                   label="VNU Email"
-                  id="vnuemail"
                   v-model="vnuemail"
                   hint="At least 6 characters"
                   :rules="[rules.required, rules.isEmail]"
@@ -61,7 +59,6 @@
                   color="#43425D"
                   name="username"
                   label="Username"
-                  id="username"
                   v-model="username"
                   type="text"
                   clearable
@@ -74,7 +71,6 @@
                   color="#43425D"
                   name="password"
                   label="Password"
-                  id="password"
                   v-model="password"
                   hint="At least 6 characters"
                   :rules="[rules.required, rules.counterPassword]"

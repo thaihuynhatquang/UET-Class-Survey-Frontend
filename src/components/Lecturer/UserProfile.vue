@@ -2,7 +2,7 @@
   <v-layout id="layout-user-profile" align-center justify-center row fill-height>
     <v-flex xs12 sm11 md10 lg7 xl4>
       <v-card id="card-user-profile">
-        <v-tooltip top @click.native="$refs.file.click()">
+        <v-tooltip top @click.native="$refs.changeAvatar.click()">
           <v-avatar
             style="cursor: pointer; justify-self: center;"
             slot="activator"
@@ -12,7 +12,7 @@
             <img :src="avatar"/>
           </v-avatar>
           <span>Click to change Avatar</span>
-          <input hidden type="file" multiple="false" accept="image/*" ref="file" @change="changeAvatar">
+          <input hidden type="file" multiple="false" accept="image/*" ref="changeAvatar" @change="changeAvatar">
         </v-tooltip>
         <v-card-text class="text-xs-center">
           <div id="user-role"><em>{{ role }}</em></div>

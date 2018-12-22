@@ -78,6 +78,33 @@ const actions = {
           reject(err)
         })
     })
+  },
+
+  editAccount ({commit}, data) {
+    return new Promise((resolve, reject) => {
+      axios.put('http://localhost:3000/api/infoForAdmin', data)
+        .then(resp => {
+          console.log(resp.data)
+          resolve(resp)
+        })
+        .catch(err => {
+          console.log(err.response.data)
+          reject(err)
+        })
+    })
+  },
+
+  importListAccounts ({commit}, data) {
+    return new Promise((resolve, reject) => {
+      axios.post('http://localhost:3000/api/upList', data)
+        .then(resp => {
+          resolve(resp)
+        })
+        .catch(err => {
+          console.log(err.response)
+          reject(err)
+        })
+    })
   }
 }
 

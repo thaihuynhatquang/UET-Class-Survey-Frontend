@@ -3,15 +3,8 @@
     <v-flex>
       <v-layout row>
         <v-spacer/>
-        <v-btn color="mainColor" dark class="button-admin">Import List Accounts</v-btn>
-        <v-dialog v-model="dialog.createAccount" max-width="600px">
-          <v-btn slot="activator" color="mainColor" dark class="button-admin">Create New Account</v-btn>
-          <create-account
-            @closeDialog='dialog.createAccount=$event'
-            @showSnackbar='snackbar.value=$event'
-            @snackbarMessage='snackbar.snackbarMessage=$event'>
-          </create-account>
-        </v-dialog>
+        <v-btn @click="dialog.importListAccounts=true" color="mainColor" dark class="button-admin">Import List Accounts</v-btn>
+        <v-btn @click="dialog.createAccount=true" color="mainColor" dark class="button-admin">Create New Account</v-btn>
       </v-layout>
       <v-card id="card-course-overview">
         <v-data-table
@@ -42,9 +35,9 @@
             <td class="text-xs-left">
               {{ props.item.username }}
               <br>
-              <span>Edit</span>
-              <span @click="[dialog.deleteAccount=true, getUserId(props.item.id)]" style="cursor: pointer;">Delete</span>
-              <span @click="[dialog.updatePassword=true, getUserId(props.item.id), getUser(props.item.fullname)]" style="cursor: pointer;">Update Password</span>
+              <span @click="[dialog.editAccount=true, getUserInfor(props.item)]" style="cursor: pointer;">Edit</span>
+              <span @click="[dialog.deleteAccount=true, getUserInfor(props.item)]" style="cursor: pointer;">Delete</span>
+              <span @click="[dialog.updatePassword=true, getUserInfor(props.item)]" style="cursor: pointer;">Update Password</span>
             </td>
             <td class="text-xs-left">{{ props.item.fullname }}</td>
             <td class="text-xs-left">{{ props.item.vnuemail }}</td>
@@ -62,12 +55,27 @@
       <v-icon>check_circle</v-icon>
       <v-btn color="#66615B" flat @click="snackbar.value = false">{{ snackbar.snackbarMessage }}</v-btn>
     </v-snackbar>
+
+    <v-dialog v-model="dialog.importListAccounts" persistent max-width="400px">
+      <import-list-accounts
+        @closeDialog='dialog.importListAccounts=$event'
+        @showSnackbar='snackbar.value=$event'
+        @snackbarMessage='snackbar.snackbarMessage=$event'>
+      </import-list-accounts>
+    </v-dialog>
+    <v-dialog v-model="dialog.createAccount" max-width="600px">
+      <create-account
+        @closeDialog='dialog.createAccount=$event'
+        @showSnackbar='snackbar.value=$event'
+        @snackbarMessage='snackbar.snackbarMessage=$event'>
+      </create-account>
+    </v-dialog>
     <v-dialog v-model="dialog.deleteAccount" max-width="400px">
       <delete-account
         @closeDialog='dialog.deleteAccount=$event'
         @snackbarMessage='snackbar.snackbarMessage=$event'
         @showSnackbar='snackbar.value=$event'
-        :userId="userId">
+        :userId="userInfo.userId">
       </delete-account>
     </v-dialog>
     <v-dialog v-model="dialog.updatePassword" max-width="600px">
@@ -75,9 +83,17 @@
         @closeDialog='dialog.updatePassword=$event'
         @snackbarMessage='snackbar.snackbarMessage=$event'
         @showSnackbar='snackbar.value=$event'
-        :userId="userId"
-        :name="name">
+        :user="userInfo.userId"
+        :name="userInfo.fullname">
       </update-password>
+    </v-dialog>
+    <v-dialog v-model="dialog.editAccount" max-width="600px">
+      <edit-account
+        @closeDialog='dialog.editAccount=$event'
+        @snackbarMessage='snackbar.snackbarMessage=$event'
+        @showSnackbar='snackbar.value=$event'
+        :userInfo="userInfo">
+      </edit-account>
     </v-dialog>
   </v-layout>
 </template>
@@ -87,6 +103,8 @@ import { mapState } from 'vuex'
 import CreateAccount from './CreateAccount.vue'
 import DeleteAccount from './DeleteAccount.vue'
 import UpdatePassword from './UpdatePassword.vue'
+import EditAccount from './EditAccount.vue'
+import ImportListAccounts from './ImportListAccounts.vue'
 
 export default {
   data () {
@@ -118,7 +136,9 @@ export default {
       dialog: {
         createAccount: false,
         deleteAccount: false,
-        updatePassword: false
+        updatePassword: false,
+        editAccount: false,
+        importListAccounts: false
       },
       snackbar: {
         value: false,
@@ -126,8 +146,14 @@ export default {
         snackbarTimeout: 3000,
         colorSnackbar: 'white'
       },
-      userId: '',
-      username: ''
+      userInfo: {
+        userId: '',
+        username: '',
+        fullname: '',
+        role: '',
+        vnuemail: '',
+        classname: ''
+      }
     }
   },
   computed: {
@@ -144,19 +170,22 @@ export default {
         this.pagination.descending = false
       }
     },
-    getUserId (userId) {
-      this.userId = userId.toString()
-      console.log(userId)
-    },
-    getUser (name) {
-      this.name = name
-      console.log(this.name)
+    getUserInfor (item) {
+      this.userInfo.userId = item.id.toString()
+      this.userInfo.username = item.username
+      this.userInfo.fullname = item.fullname
+      this.userInfo.vnuemail = item.vnuemail
+      this.userInfo.classname = item.classname
+      this.userInfo.role = item.role
+      console.log(this.userInfo)
     }
   },
   components: {
     createAccount: CreateAccount,
     deleteAccount: DeleteAccount,
-    updatePassword: UpdatePassword
+    updatePassword: UpdatePassword,
+    editAccount: EditAccount,
+    importListAccounts: ImportListAccounts
   },
   watch: {
     createAccount (val) {
@@ -166,6 +195,12 @@ export default {
       val || this.close()
     },
     updatePassword (val) {
+      val || this.close()
+    },
+    editAccount (val) {
+      val || this.close()
+    },
+    importListAccounts (val) {
       val || this.close()
     }
   }
