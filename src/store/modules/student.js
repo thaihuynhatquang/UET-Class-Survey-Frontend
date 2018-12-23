@@ -49,10 +49,46 @@ const actions = {
   },
   sendSurvey ({commit}, data) {
     return new Promise((resolve, reject) => {
-      axios.put('http://localhost:3000/api/report', data)
+      axios.post('http://localhost:3000/api/report', data)
         .then(resp => {
           console.log(resp)
           // commit('SEND_SURVEY', token)
+          resolve(resp)
+        })
+        .catch(err => {
+          console.log(err)
+          reject(err)
+        })
+    })
+  },
+  changeAvatar ({commit}, data) {
+    return new Promise((resolve, reject) => {
+      axios.put('http://localhost:3000/api/upAvatar', data)
+        .then(resp => {
+          resolve(resp)
+        })
+        .catch(err => {
+          console.log(err)
+          reject(err)
+        })
+    })
+  },
+  editInformation ({commit}, data) {
+    return new Promise((resolve, reject) => {
+      axios.put('http://localhost:3000/api/info', data)
+        .then(resp => {
+          resolve(resp)
+        })
+        .catch(err => {
+          console.log(err)
+          reject(err)
+        })
+    })
+  },
+  updatePassword ({commit}, data) {
+    return new Promise((resolve, reject) => {
+      axios.put('http://localhost:3000/api/password', data)
+        .then(resp => {
           resolve(resp)
         })
         .catch(err => {

@@ -30,14 +30,14 @@ const actions = {
           resolve(resp)
         })
         .catch(err => {
-          console.log(err)
+          console.log(err.response.data)
           reject(err)
         })
     })
   },
   getResultSurvey ({commit}, data) {
     return new Promise((resolve, reject) => {
-      axios.post('https://localhost:3000/api/result', data)
+      axios.post('http://localhost:3000/api/result', data)
         .then(resp => {
           let result = resp.data
           commit('GET_RESULT', result)
@@ -51,7 +51,31 @@ const actions = {
   },
   changeAvatar ({commit}, data) {
     return new Promise((resolve, reject) => {
-      axios.post('http://localhost:3000/api/upAvatar', data)
+      axios.put('http://localhost:3000/api/upAvatar', data)
+        .then(resp => {
+          resolve(resp)
+        })
+        .catch(err => {
+          console.log(err)
+          reject(err)
+        })
+    })
+  },
+  editInformation ({commit}, data) {
+    return new Promise((resolve, reject) => {
+      axios.put('http://localhost:3000/api/info', data)
+        .then(resp => {
+          resolve(resp)
+        })
+        .catch(err => {
+          console.log(err)
+          reject(err)
+        })
+    })
+  },
+  updatePassword ({commit}, data) {
+    return new Promise((resolve, reject) => {
+      axios.put('http://localhost:3000/api/password', data)
         .then(resp => {
           resolve(resp)
         })

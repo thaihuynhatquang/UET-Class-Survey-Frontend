@@ -31,7 +31,8 @@
                   :append-icon="showConfirmPassword ? 'visibility_off' : 'visibility'"
                   :type="showConfirmPassword ? 'text' : 'password'"
                   @click:append="showConfirmPassword = !showConfirmPassword"
-                  :rules="[comparePasswords, rules.required]">
+                  :rules="[comparePasswords, rules.required]"
+                  required>
                 </v-text-field>
               </v-flex>
           </v-layout>

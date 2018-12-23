@@ -35,7 +35,7 @@
           <div class="text-button-survey">Select File</div>
           <v-icon right color="white">cloud_upload</v-icon>
         </v-btn>
-      <input hidden type="file" multiple="false" accept="*.xlsx | *.xls" ref="importListAccounts" @change="importListAccounts">
+      <input hidden type="file" multiple="false" accept=".xlsx, .xls" ref="importListAccounts" @change="importListAccounts">
     </v-card-actions>
   </v-card>
 </template>

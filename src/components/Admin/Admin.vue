@@ -52,6 +52,7 @@ export default {
   created () {
     this.$store.dispatch('getUser')
     this.$store.dispatch('admin/getAllAccounts')
+    this.$store.dispatch('admin/getAllCourses')
   },
   mounted () {
     this.onResponsiveInverted()

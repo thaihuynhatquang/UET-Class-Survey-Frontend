@@ -4,14 +4,14 @@
       <v-icon color="mainColor" size=100>error_outline</v-icon>
     </v-layout>
     <v-layout row wrap justify-center>
-      <h1 class="delete-account-content text-xs-center">Are you sure to delete<br>{{ userInfo.fullname }}?</h1>
+      <h1 class="delete-account-content text-xs-center">Are you sure to delete<br>{{ courseInfo.course_id }}?</h1>
     </v-layout>
     <v-layout row wrap justify-center>
       <span class="delete-account-note">You will not be able to recover this account!</span>
     </v-layout>
     <v-layout row wrap justify-center>
       <v-btn color="mainColor" class="delete-account-button" @click="closeDialog" dark>Cancel</v-btn>
-      <v-btn color="mainColor" class="delete-account-button" @click="deleteAccount" dark>Delete</v-btn>
+      <v-btn color="mainColor" class="delete-account-button" @click="deleteCourse" dark>Delete</v-btn>
     </v-layout>
   </v-card>
 </template>
@@ -20,26 +20,26 @@
 export default {
   props: {
     dialog: Boolean,
-    userInfo: Object
+    courseInfo: Object
   },
   methods: {
     closeDialog () {
       this.dialog = false
       this.$emit('closeDialog', this.dialog)
     },
-    deleteAccount () {
+    deleteCourse () {
       let data = {
-        id: this.userInfo.userId + ''
+        course_id: this.courseInfo.course_id + ''
       }
       console.log(data)
-      this.$store.dispatch('admin/deleteAccount', data)
+      this.$store.dispatch('admin/deleteCourse', data)
         .then(() => {
           this.closeDialog()
-          let snackbarMessage = 'Delete account successfully'
+          let snackbarMessage = 'Delete course successfully'
           let showSnackbar = true
           this.$emit('snackbarMessage', snackbarMessage)
           this.$emit('showSnackbar', showSnackbar)
-          this.$store.dispatch('admin/getAllAccounts')
+          this.$store.dispatch('admin/getAllCourses')
         })
     }
   }

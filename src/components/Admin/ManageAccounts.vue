@@ -75,7 +75,7 @@
         @closeDialog='dialog.deleteAccount=$event'
         @snackbarMessage='snackbar.snackbarMessage=$event'
         @showSnackbar='snackbar.value=$event'
-        :userId="userInfo.userId">
+        :userInfo="userInfo">
       </delete-account>
     </v-dialog>
     <v-dialog v-model="dialog.updatePassword" max-width="600px">
@@ -177,7 +177,7 @@ export default {
       this.userInfo.vnuemail = item.vnuemail
       this.userInfo.classname = item.classname
       this.userInfo.role = item.role
-      console.log(this.userInfo)
+      // console.log(this.userInfo)
     }
   },
   components: {

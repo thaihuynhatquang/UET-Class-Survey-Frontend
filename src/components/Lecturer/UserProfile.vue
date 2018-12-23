@@ -2,7 +2,7 @@
   <v-layout id="layout-user-profile" align-center justify-center row fill-height>
     <v-flex xs12 sm11 md10 lg7 xl4>
       <v-card id="card-user-profile">
-        <v-tooltip top @click.native="$refs.changeAvatar.click()">
+        <v-tooltip top @click.native="$refs.changeLecturerAvatar.click()">
           <v-avatar
             style="cursor: pointer; justify-self: center;"
             slot="activator"
@@ -12,7 +12,7 @@
             <img :src="avatar"/>
           </v-avatar>
           <span>Click to change Avatar</span>
-          <input hidden type="file" multiple="false" accept="image/*" ref="changeAvatar" @change="changeAvatar">
+          <input hidden type="file" multiple="false" accept="image/*" ref="changeLecturerAvatar" @change="changeAvatar">
         </v-tooltip>
         <v-card-text class="text-xs-center">
           <div id="user-role"><em>{{ role }}</em></div>
@@ -22,7 +22,8 @@
           <div id="user-courses"><strong>Total courses: {{ totalCourses }}</strong></div>
         </v-card-text>
         <v-card-text class="text-xs-center">
-          <v-btn v-show="showAvatar" color="mainColor" dark @click="submitAvatar()">Save</v-btn>
+          <v-btn v-if="!showAvatar" color="mainColor" dark @click="editInformation">Edit Information</v-btn>
+          <v-btn v-else color="mainColor" dark @click="submitAvatar()">Save</v-btn>
         </v-card-text>
       <v-snackbar
         top
@@ -33,6 +34,15 @@
         <v-icon>check_circle</v-icon>
         <v-btn color="#66615B" flat @click="snackbar.value = false">{{ snackbar.snackbarMessage }}</v-btn>
       </v-snackbar>
+      <v-dialog v-model="dialog" max-width="600px">
+        <edit-information
+          :key="key"
+          @closeDialog='dialog=$event'
+          @snackbarMessage='snackbar.snackbarMessage=$event'
+          @showSnackbar='snackbar.value=$event'
+          :userInfo="user">
+        </edit-information>
+      </v-dialog>
       </v-card>
     </v-flex>
   </v-layout>
@@ -40,6 +50,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import EditInformation from './EditInformation'
 
 export default {
   data () {
@@ -51,7 +62,9 @@ export default {
         snackbarMessage: 'Update Avatar successfully',
         snackbarTimeout: 3000,
         colorSnackbar: 'white'
-      }
+      },
+      dialog: false,
+      key: 0
     }
   },
   computed: {
@@ -70,15 +83,15 @@ export default {
         .then(() => {
           this.showAvatar = false
           this.showSnackbar()
+          this.$refs.changeStudentAvatar.value = ''
         })
         .catch((err) => {
           console.log(err)
         })
     },
     changeAvatar () {
-      this.file = this.$refs.file.files[0]
+      this.file = this.$refs.changeLecturerAvatar.files[0]
       let reader = new FileReader()
-      console.log(this.avatar)
       reader.addEventListener('load', function () {
         this.showAvatar = true
         this.$store.commit('SET_TEMP_AVATAR', reader.result)
@@ -91,7 +104,14 @@ export default {
     },
     showSnackbar () {
       this.snackbar.value = true
+    },
+    editInformation () {
+      this.dialog = true
+      this.key++
     }
+  },
+  components: {
+    editInformation: EditInformation
   }
 }
 </script>
