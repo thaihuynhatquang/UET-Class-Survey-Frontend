@@ -5,6 +5,14 @@
         <app-header v-if="['Login'].indexOf($route.name) > -1" />
         <router-view></router-view>
       </v-img>
+    <v-snackbar
+      top
+      v-model="snackbar.value"
+      :color="snackbar.colorSnackbar"
+      :timeout="snackbar.snackbarTimeout"
+    >
+      <v-btn color="#66615B" flat @click="snackbar.value = false">{{ snackbar.snackbarMessage }}</v-btn>
+    </v-snackbar>
     </v-content>
   </v-app>
 </template>
@@ -14,6 +22,16 @@ import { mapMutations, mapState } from 'vuex'
 import Header from './components/UI/Header.vue'
 
 export default {
+  data () {
+    return {
+        snackbar: {
+        value: false,
+        snackbarMessage: 'Your session is end',
+        snackbarTimeout: 3000,
+        colorSnackbar: 'white'
+      },
+    }
+  },
   name: 'App',
   components: {
     appHeader: Header
@@ -29,14 +47,18 @@ export default {
       }
     }
   },
-  created: function () {
-    this.$http.interceptors.response.use(undefined, function (err) {
-      return new Promise(function (resolve, reject) {
-        if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
+  created () {
+    this.$http.interceptors.response.use(undefined, err => {
+      return new Promise((resolve, reject) => {
+        if (err.response.status === 401 && err.response.data.message === "jwt expired") {
           // eslint-disable-next-line
-          this.$store.dispatch(logout)
+          this.$store.dispatch('logout')
+            .then(() => {
+              this.$router.push('/login')
+              this.snackbar.value = true
+            })
         }
-        throw err
+        throw err        
       })
     })
   },

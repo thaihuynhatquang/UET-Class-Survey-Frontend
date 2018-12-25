@@ -11,6 +11,7 @@ import LecturerProfile from '@/components/Lecturer/UserProfile.vue'
 import Admin from '@/components/Admin/Admin.vue'
 import ManageAccounts from '@/components/Admin/ManageAccounts'
 import ManageCourses from '@/components/Admin/ManageCourses'
+import ManageForm from '@/components/Admin/ManageForm'
 
 Vue.use(Router)
 
@@ -145,8 +146,21 @@ let router = new Router({
               next('/')
             }
           }
+        },
+        {
+          path: 'form',
+          name: 'Manage Form',
+          component: ManageForm,
+          meta: { requiresAuth: true },
+          beforeEnter (to, from, next) {
+            let role = localStorage.getItem('roleStatus')
+            if (role === 'Admin') {
+              next()
+            } else {
+              next('/')
+            }
+          }
         }
-
       ]
     }
   ],

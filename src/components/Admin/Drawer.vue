@@ -26,11 +26,17 @@
           </v-list-tile-action>
           <v-list-tile-title>Manage Accounts</v-list-tile-title>
         </v-list-tile>
-         <v-list-tile :active-class="color" avatar to="/admin/courses">
+        <v-list-tile :active-class="color" avatar to="/admin/courses">
           <v-list-tile-action>
             <v-icon>dashboard</v-icon>
           </v-list-tile-action>
           <v-list-tile-title>Manage Courses</v-list-tile-title>
+        </v-list-tile>
+        <v-list-tile :active-class="color" avatar to="/admin/form">
+          <v-list-tile-action>
+            <v-icon>assignment</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-title>Manage Form</v-list-tile-title>
         </v-list-tile>
         <v-list-tile :active-class="color" avatar @click.stop.prevent="onLogout">
           <v-list-tile-action>

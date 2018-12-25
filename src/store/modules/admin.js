@@ -5,6 +5,7 @@ const namespaced = true
 const state = {
   accounts: [],
   courses: [],
+  form: [],
   surveyResult: [],
   surveyInfo: {},
   lecturers: []
@@ -27,7 +28,6 @@ const mutations = {
       }
     }
     state.accounts = accounts
-    console.log(state.lecturers)
   },
 
   'GET_ALL_COURSES' (state, courses) {
@@ -37,6 +37,10 @@ const mutations = {
   'GET_RESULT' (state, result) {
     state.surveyResult = result.resultTable
     state.surveyInfo = result.surveyInfo
+  },
+
+  'GET_FORM' (state, form) {
+    state.form = form
   }
 }
 
@@ -183,7 +187,22 @@ const actions = {
           reject(err)
         })
     })
-  }
+  },
+
+  getForm ({commit}) {
+    return new Promise((resolve, reject) => {
+      axios.get('http://localhost:3000/api/form')
+        .then(resp => {
+          let form = resp.data
+          commit('GET_FORM', form)
+          resolve(resp)
+        })
+        .catch(err => {
+          console.log(err)
+          reject(err)
+        })
+    })
+  },
 
 }
 

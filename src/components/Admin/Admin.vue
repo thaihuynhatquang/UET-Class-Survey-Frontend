@@ -16,6 +16,12 @@
             <span class="text-tooltip">Manage Courses</span>
           </v-tooltip>
         </v-btn>
+        <v-btn icon :ripple="false" v-if="responsive" to="/admin/form">
+          <v-tooltip bottom>
+            <v-icon slot="activator" color="#43425D">assignment</v-icon>
+            <span class="text-tooltip">Manage Form</span>
+          </v-tooltip>
+        </v-btn>
         <v-btn icon :ripple="false" v-if="responsive" @click="onLogout">
           <v-tooltip bottom>
             <v-icon slot="activator" color="#43425D">exit_to_app</v-icon>
@@ -53,6 +59,7 @@ export default {
     this.$store.dispatch('getUser')
     this.$store.dispatch('admin/getAllAccounts')
     this.$store.dispatch('admin/getAllCourses')
+    this.$store.dispatch('admin/getForm')
   },
   mounted () {
     this.onResponsiveInverted()
