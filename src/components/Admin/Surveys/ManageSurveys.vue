@@ -7,8 +7,14 @@
         <v-btn @click="deleteAllCourses" color="mainColor" dark class="button-admin">Delete All Courses</v-btn>
       </v-layout>
       <v-card id="card-course-overview">
+        <v-card-title>
+          <v-text-field color="mainColor" v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
+        </v-card-title>
         <v-data-table
+          select-all
+          v-model="selected"
           :headers="headers"
+          :search="search"
           :items="courses"
           class="elevation-1 mytable"
           :pagination.sync="pagination"
@@ -17,6 +23,15 @@
         >
           <template slot="headers" slot-scope="props">
             <tr>
+              <th>
+                <v-checkbox
+                  :input-value="props.all"
+                  :indeterminate="props.indeterminate"
+                  color="mainColor"
+                  hide-details
+                  @click="toggleAll"
+                ></v-checkbox>
+              </th>
               <th
                 v-for="header in props.headers"
                 :key="header.text"
@@ -34,32 +49,50 @@
             </v-card-text>
           </template>
            <template slot="items" slot-scope="props">
-            <td class="justify-left px-4">
-              <v-tooltip bottom style="cursor: pointer">
-                <v-icon
-                small
-                slot="activator"
-                color="mainColor"
-                class="mr-3"
-                @click="[getCourseInfo(props.item), viewResult()]">remove_red_eye</v-icon>
-                <span>View Course</span>
-              </v-tooltip>
-              <v-tooltip bottom style="cursor: pointer">
-                <v-icon
-                small
-                slot="activator"
-                color="mainColor"
-                class="mr-3"
-                @click="[getCourseInfo(props.item), deleteCourse()]">delete</v-icon>
-                <span>Delete Course</span>
-              </v-tooltip>
-            </td>
-            <td class="text-xs-left">
-              {{ props.item.course_id }}
-            </td>
-            <td class="text-xs-left">{{ props.item.subject }}</td>
-            <td class="text-xs-left">{{ props.item.fullname }}</td>
+            <tr :active="props.selected" @click="props.selected = !props.selected">
+              <td>
+                <v-checkbox
+                  :input-value="props.selected"
+                  color="mainColor"
+                  hide-details
+                ></v-checkbox>
+              </td>
+              <td class="justify-left px-4">
+                <v-tooltip bottom style="cursor: pointer">
+                  <v-icon
+                  small
+                  slot="activator"
+                  color="mainColor"
+                  class="mr-3"
+                  @click="[getCourseInfo(props.item), viewResult()]">remove_red_eye</v-icon>
+                  <span>View Course</span>
+                </v-tooltip>
+                <v-tooltip bottom style="cursor: pointer">
+                  <v-icon
+                  small
+                  slot="activator"
+                  color="mainColor"
+                  class="mr-3"
+                  @click="[getCourseInfo(props.item), deleteCourse()]">delete</v-icon>
+                  <span>Delete Course</span>
+                </v-tooltip>
+              </td>
+              <td class="text-xs-left">
+                {{ props.item.course_id }}
+              </td>
+              <td class="text-xs-left">{{ props.item.subject }}</td>
+              <td class="text-xs-left" style="font-weight: 700; color: #43425D">{{ props.item.fullname }}</td>
+            </tr>
           </template>
+          <template v-if="selected.length > 0" slot="footer">
+          <td :colspan="headers.length + 1">
+            <v-layout row wrap justify-center>
+              <v-flex xs12>
+                <v-btn color="mainColor" dark @click="deleteMultiCourses">Delete</v-btn>
+              </v-flex>
+            </v-layout>
+          </td>
+        </template>
         </v-data-table>
       </v-card>
     </v-flex>
@@ -103,6 +136,16 @@
         :courseInfo="courseInfo">
       </delete-course>
     </v-dialog>
+    <v-dialog v-model="dialog.deleteMultiCourses" max-width="400px">
+      <delete-multi-courses
+        @closeDialog='dialog.deleteMultiCourses=$event'
+        @snackbarMessage='snackbar.snackbarMessage=$event'
+        @clearSelected='selected=$event'
+        @showSnackbar='snackbar.value=$event'
+        :selected="selected"
+        :key="dialog.key">
+      </delete-multi-courses>
+    </v-dialog>
     <v-dialog v-model="dialog.deleteAllCourses" max-width="400px">
       <delete-all-courses
         @closeDialog='dialog.deleteAllCourses=$event'
@@ -119,10 +162,14 @@ import ViewResultCourse from './ViewResultCourse.vue'
 import CreateNewCourse from './CreateNewCourse.vue'
 import DeleteCourse from './DeleteCourse.vue'
 import DeleteAllCourses from './DeleteAllCourses.vue'
+import DeleteMultiCourses from './DeleteMultiCourses.vue'
 
 export default {
   data () {
     return {
+      search: '',
+      check: true,
+      selected: [],
       headers: [
         {
           text: 'ACTIONS'
@@ -148,6 +195,7 @@ export default {
         createNewCourse: false,
         deleteCourse: false,
         deleteAllCourses: false,
+        deleteMultiCourses: false,
         key: 0
       },
       snackbar: {
@@ -199,13 +247,31 @@ export default {
     },
     deleteAllCourses () {
       this.dialog.deleteAllCourses = true
+    },
+    toggleAll () {
+      if (this.check === true) {
+        this.check = false
+        if (this.selected.length === 0) {
+          this.selected = this.courses.slice()
+        } else if (this.selected.length === this.courses.length) {
+          this.selected = []
+        } else {
+          this.selected = this.courses.slice()
+        }
+      }
+      setTimeout(() => (this.check = true), 100)
+    },
+    deleteMultiCourses () {
+      this.dialog.key++
+      this.dialog.deleteMultiCourses = true
     }
   },
   components: {
     viewResult: ViewResultCourse,
     createNewCourse: CreateNewCourse,
     deleteCourse: DeleteCourse,
-    deleteAllCourses: DeleteAllCourses
+    deleteAllCourses: DeleteAllCourses,
+    deleteMultiCourses: DeleteMultiCourses
   },
   watch: {
     viewResult (val) {

@@ -38,6 +38,7 @@ const mutations = {
 
   'DELETE_ALL_ACCOUNTS' (state) {
     state.accounts = []
+    state.lecturers = []
   },
 
   'GET_ALL_COURSES' (state, courses) {
@@ -104,7 +105,6 @@ const actions = {
     return new Promise((resolve, reject) => {
       axios.delete('http://localhost:3000/api/account', { data: id })
         .then(resp => {
-          console.log(resp.data)
           resolve(resp)
         })
         .catch(err => {
@@ -119,6 +119,18 @@ const actions = {
         .then(resp => {
           resolve(resp)
           commit('DELETE_ALL_ACCOUNTS')
+        })
+        .catch(err => {
+          reject(err.response.data)
+        })
+    })
+  },
+
+  deleteMultiAccounts ({commit}, listId) {
+    return new Promise((resolve, reject) => {
+      axios.delete('http://localhost:3000/api/someAccounts', { data: listId })
+        .then(resp => {
+          resolve(resp)
         })
         .catch(err => {
           reject(err.response.data)
@@ -169,6 +181,7 @@ const actions = {
       axios.get('http://localhost:3000/api/courses')
         .then(resp => {
           let courses = resp.data
+          console.log('Courses: ', courses)
           commit('GET_ALL_COURSES', courses)
           resolve(resp)
         })
@@ -213,7 +226,6 @@ const actions = {
     return new Promise((resolve, reject) => {
       axios.delete('http://localhost:3000/api/course', { data: courseId })
         .then(resp => {
-          console.log(resp.data)
           resolve(resp)
         })
         .catch(err => {
@@ -222,12 +234,23 @@ const actions = {
     })
   },
 
-  deleteAllCourses ({commit}) {
+  deleteCourses ({commit}) {
     return new Promise((resolve, reject) => {
       axios.delete('http://localhost:3000/api/courses')
         .then(resp => {
-          console.log(resp.data)
           commit('DELETE_ALL_COURSES')
+          resolve(resp)
+        })
+        .catch(err => {
+          reject(err.response.data)
+        })
+    })
+  },
+
+  deleteMultiCourses ({commit}, listCourseId) {
+    return new Promise((resolve, reject) => {
+      axios.delete('http://localhost:3000/api/someCourses', { data: listCourseId })
+        .then(resp => {
           resolve(resp)
         })
         .catch(err => {
@@ -292,6 +315,18 @@ const actions = {
   editCriteria ({commit}, data) {
     return new Promise((resolve, reject) => {
       axios.put('http://localhost:3000/api/criteria', data)
+        .then(resp => {
+          resolve(resp)
+        })
+        .catch(err => {
+          reject(err.response.data)
+        })
+    })
+  },
+
+  updateAdminPassword ({commit}, data) {
+    return new Promise((resolve, reject) => {
+      axios.put('http://localhost:3000/api/password', data)
         .then(resp => {
           resolve(resp)
         })

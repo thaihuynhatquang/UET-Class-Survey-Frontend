@@ -8,10 +8,16 @@
         <v-btn @click="dialog.deleteAllAccounts=true" color="mainColor" dark class="button-admin">Delete All Accounts</v-btn>
       </v-layout>
       <v-card class="card-course-overview">
+        <v-card-title>
+          <v-text-field color="mainColor" v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
+        </v-card-title>
         <v-data-table
+          :search="search"
+          select-all
+          v-model="selected"
           :headers="headers"
           :items="accounts"
-          class="elevation-1 mytable"
+          class="mytable"
           :pagination.sync="pagination"
           item-key="id"
           :rows-per-page-items="[10]"
@@ -44,24 +50,35 @@
             </v-card-text>
           </template>
           <template slot="items" slot-scope="props">
-            <td>
-              <v-checkbox
-                :input-value="props.selected"
-                color="mainColor"
-                hide-details
-              ></v-checkbox>
-            </td>
-            <td class="text-xs-left">
-              {{ props.item.username }}
-              <br>
-              <span @click="[dialog.editAccount=true, getUserInfor(props.item), dialog.key++]" style="cursor: pointer;">Edit</span>
-              <span @click="[dialog.deleteAccount=true, getUserInfor(props.item), dialog.key++]" style="cursor: pointer;">Delete</span>
-              <span @click="[dialog.updatePassword=true, getUserInfor(props.item), dialog.key++]" style="cursor: pointer;">Update Password</span>
-            </td>
-            <td class="text-xs-left">{{ props.item.fullname }}</td>
-            <td class="text-xs-left">{{ props.item.vnuemail }}</td>
-            <td class="text-xs-left">{{ props.item.role }}</td>
+            <tr :active="props.selected" @click="props.selected = !props.selected">
+              <td>
+                <v-checkbox
+                  :input-value="props.selected"
+                  color="mainColor"
+                  hide-details
+                ></v-checkbox>
+              </td>
+              <td class="text-xs-left">
+                {{ props.item.username }}
+                <br>
+                <span @click="[dialog.editAccount=true, getUserInfor(props.item), dialog.key++]" style="cursor: pointer;">Edit</span>
+                <span @click="[dialog.deleteAccount=true, getUserInfor(props.item), dialog.key++]" style="cursor: pointer;">Delete</span>
+                <span @click="[dialog.updatePassword=true, getUserInfor(props.item), dialog.key++]" style="cursor: pointer;">Update Password</span>
+              </td>
+              <td class="text-xs-left">{{ props.item.fullname }}</td>
+              <td class="text-xs-left">{{ props.item.vnuemail }}</td>
+              <td class="text-xs-left" style="font-weight: 700; color: #43425D">{{ props.item.role }}</td>
+            </tr>
           </template>
+          <template v-if="selected.length > 0" slot="footer">
+          <td :colspan="headers.length + 1">
+            <v-layout row wrap justify-center>
+              <v-flex xs12>
+                <v-btn color="mainColor" dark @click="deleteMultiAccounts">Delete</v-btn>
+              </v-flex>
+            </v-layout>
+          </td>
+        </template>
         </v-data-table>
       </v-card>
     </v-flex>
@@ -101,6 +118,16 @@
         :userInfo="userInfo">
       </delete-account>
     </v-dialog>
+    <v-dialog v-model="dialog.deleteMultiAccounts" max-width="400px">
+      <delete-multi-accounts
+        @closeDialog='dialog.deleteMultiAccounts=$event'
+        @snackbarMessage='snackbar.snackbarMessage=$event'
+        @clearSelected='selected=$event'
+        @showSnackbar='snackbar.value=$event'
+        :selected="selected"
+        :key="dialog.key">
+      </delete-multi-accounts>
+    </v-dialog>
     <v-dialog v-model="dialog.updatePassword" max-width="600px">
       <update-password
         @closeDialog='dialog.updatePassword=$event'
@@ -137,11 +164,13 @@ import UpdatePassword from './UpdatePassword.vue'
 import EditAccount from './EditAccount.vue'
 import ImportListAccounts from './ImportListAccounts.vue'
 import DeleteAllAccounts from './DeleteAllAccounts.vue'
+import DeleteMultiAccounts from './DeleteMultiAccounts.vue'
 
 export default {
   data () {
     return {
-      key: 0,
+      search: '',
+      check: true,
       selected: [],
       headers: [
         {
@@ -174,6 +203,7 @@ export default {
         editAccount: false,
         importListAccounts: false,
         deleteAllAccounts: false,
+        deleteMultiAccounts: false,
         key: 0
       },
       snackbar: {
@@ -216,8 +246,21 @@ export default {
       this.userInfo.role = item.role
     },
     toggleAll () {
-      if (this.selected.length) this.selected = []
-      else this.selected = this.accounts.slice()
+      if (this.check === true) {
+        this.check = false
+        if (this.selected.length === 0) {
+          this.selected = this.accounts.slice()
+        } else if (this.selected.length === this.accounts.length) {
+          this.selected = []
+        } else {
+          this.selected = this.accounts.slice()
+        }
+      }
+      setTimeout(() => (this.check = true), 100)
+    },
+    deleteMultiAccounts () {
+      this.dialog.key++
+      this.dialog.deleteMultiAccounts = true
     }
   },
   components: {
@@ -226,7 +269,8 @@ export default {
     updatePassword: UpdatePassword,
     editAccount: EditAccount,
     importListAccounts: ImportListAccounts,
-    deleteAllAccounts: DeleteAllAccounts
+    deleteAllAccounts: DeleteAllAccounts,
+    deleteMultiAccounts: DeleteMultiAccounts
   },
   watch: {
     createAccount (val) {

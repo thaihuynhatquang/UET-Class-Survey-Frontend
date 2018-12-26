@@ -14,9 +14,18 @@
           <v-list-tile-avatar color="white">
             <v-img  :src="avatar" contain/>
           </v-list-tile-avatar>
+
           <v-list-tile-content>
-            <v-list-tile-title>{{ fullname }}</v-list-tile-title>
-            <v-list-tile-sub-title>{{ role }}</v-list-tile-sub-title>
+            <v-list-tile-title>
+              {{ fullname }}
+              <v-icon
+                style="cursor: pointer;"
+                small
+                class="ml-2 mb-1"
+                @click="[dialog=true, key++]"
+              >edit
+              </v-icon>
+            </v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
         <v-divider id="divider"/>
@@ -46,23 +55,35 @@
         </v-list-tile>
       </v-layout>
     </v-img>
+    <v-dialog v-model="dialog" max-width="400px">
+      <edit-admin-password
+        @closeDialog='dialog=$event'
+        :userInfo="user"
+        :key="key"
+      >
+      </edit-admin-password>
+    </v-dialog>
   </v-navigation-drawer>
 </template>
 
 <script>
 import { mapMutations, mapState } from 'vuex'
+import EditAdminPassword from './EditAdminPassword.vue'
 
 export default {
   data () {
     return {
-      role: localStorage.getItem('roleStatus')
+      role: localStorage.getItem('roleStatus'),
+      dialog: false,
+      key: 0
     }
   },
   computed: {
     ...mapState({
       // arrow functions can make the code very succinct!
       fullname: state => state.user.fullname,
-      avatar: state => state.avatar
+      avatar: state => state.avatar,
+      user: state => state.user
     }),
     ...mapState('app', ['image', 'color']),
     drawer: {
@@ -73,6 +94,9 @@ export default {
         this.setDrawer(val)
       }
     }
+  },
+  components: {
+    editAdminPassword: EditAdminPassword
   },
   mounted () {
     this.onResponsiveInverted()
