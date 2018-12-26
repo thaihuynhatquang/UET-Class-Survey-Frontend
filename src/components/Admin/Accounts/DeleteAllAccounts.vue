@@ -33,6 +33,7 @@ export default {
           let showSnackbar = true
           this.$emit('snackbarMessage', snackbarMessage)
           this.$emit('showSnackbar', showSnackbar)
+          this.$store.dispatch('admin/getAllCourses')
           this.closeDialog()
         })
     }

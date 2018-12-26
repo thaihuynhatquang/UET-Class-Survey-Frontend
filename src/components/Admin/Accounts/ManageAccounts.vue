@@ -18,6 +18,15 @@
         >
           <template slot="headers" slot-scope="props">
             <tr>
+              <th>
+                <v-checkbox
+                  :input-value="props.all"
+                  :indeterminate="props.indeterminate"
+                  color="mainColor"
+                  hide-details
+                  @click="toggleAll"
+                ></v-checkbox>
+              </th>
               <th
                 v-for="header in props.headers"
                 :key="header.text"
@@ -34,7 +43,14 @@
               <span style="color: #43425D;">No accounts availble</span>
             </v-card-text>
           </template>
-           <template slot="items" slot-scope="props">
+          <template slot="items" slot-scope="props">
+            <td>
+              <v-checkbox
+                :input-value="props.selected"
+                color="mainColor"
+                hide-details
+              ></v-checkbox>
+            </td>
             <td class="text-xs-left">
               {{ props.item.username }}
               <br>
@@ -126,6 +142,7 @@ export default {
   data () {
     return {
       key: 0,
+      selected: [],
       headers: [
         {
           text: 'USERNAME',
@@ -197,6 +214,10 @@ export default {
       this.userInfo.vnuemail = item.vnuemail
       this.userInfo.classname = item.classname
       this.userInfo.role = item.role
+    },
+    toggleAll () {
+      if (this.selected.length) this.selected = []
+      else this.selected = this.accounts.slice()
     }
   },
   components: {

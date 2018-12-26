@@ -14,8 +14,9 @@ const state = {
 
 const mutations = {
   'GET_ALL_ACCOUNTS' (state, accounts) {
+    state.accounts = []
+    state.lecturers = []
     if (accounts === undefined || accounts.length === 0) {
-      state.accounts = []
       return
     }
     for (let account of accounts) {
@@ -40,8 +41,8 @@ const mutations = {
   },
 
   'GET_ALL_COURSES' (state, courses) {
+    state.courses = []
     if (courses === undefined || courses.length === 0) {
-      state.courses = []
       return
     }
     state.courses = courses
@@ -57,8 +58,8 @@ const mutations = {
   },
 
   'GET_FORM' (state, form) {
+    state.form = []
     if (form === undefined || form.length === 0) {
-      state.form = []
       return
     }
     state.form = form
@@ -80,6 +81,7 @@ const actions = {
           resolve(resp)
         })
         .catch(err => {
+          commit('DELETE_ALL_ACCOUNTS')
           reject(err.response.data)
         })
     })
@@ -157,7 +159,7 @@ const actions = {
           resolve(resp)
         })
         .catch(err => {
-          reject(err.response.data)
+          reject(err)
         })
     })
   },
@@ -171,6 +173,7 @@ const actions = {
           resolve(resp)
         })
         .catch(err => {
+          commit('DELETE_ALL_COURSES')
           reject(err.response.data)
         })
     })

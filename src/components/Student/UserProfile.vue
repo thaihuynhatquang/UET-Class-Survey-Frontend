@@ -12,7 +12,7 @@
             <img :src="avatar"/>
           </v-avatar>
           <span>Click to change Avatar</span>
-          <input hidden type="file" multiple="false" accept="image/*" ref="changeStudentAvatar" @change="changeAvatar">
+          <input hidden type="file" multiple="false" accept=".jpg, .png" ref="changeStudentAvatar" @change="changeAvatar">
         </v-tooltip>
         <v-card-text class="text-xs-center">
           <div id="user-role"><em>{{ role }}</em></div>
@@ -61,6 +61,7 @@ export default {
         snackbarTimeout: 3000,
         colorSnackbar: 'white'
       },
+      role: localStorage.getItem('roleStatus'),
       dialog: false,
       key: 0
     }
@@ -69,7 +70,6 @@ export default {
     ...mapState({
       user: state => state.user,
       avatar: state => state.avatar,
-      role: state => state.role,
       totalCourses: state => state.student.totalCourses
     })
   },

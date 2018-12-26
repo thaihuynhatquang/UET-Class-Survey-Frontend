@@ -40,6 +40,7 @@ export default {
           this.$emit('snackbarMessage', snackbarMessage)
           this.$emit('showSnackbar', showSnackbar)
           this.$store.dispatch('admin/getAllAccounts')
+          this.$store.dispatch('admin/getAllCourses')
         })
     }
   }
