@@ -9,9 +9,9 @@ import LecturerCourseOverview from '@/components/Lecturer/CourseOverview'
 import StudentProfile from '@/components/Student/UserProfile.vue'
 import LecturerProfile from '@/components/Lecturer/UserProfile.vue'
 import Admin from '@/components/Admin/Admin.vue'
-import ManageAccounts from '@/components/Admin/ManageAccounts'
-import ManageCourses from '@/components/Admin/ManageCourses'
-import ManageForm from '@/components/Admin/ManageForm'
+import ManageAccounts from '@/components/Admin/Accounts/ManageAccounts'
+import ManageCourses from '@/components/Admin/Courses/ManageCourses'
+import ManageForm from '@/components/Admin/Form/ManageForm'
 
 Vue.use(Router)
 

@@ -2,7 +2,9 @@
   <v-layout id="layout-course-overview" align-start justify-center row fill-height>
     <v-flex>
       <v-layout row>
-        <v-btn @click="createNewAccount" color="mainColor" dark class="button-admin">Create New Course</v-btn>
+        <v-spacer></v-spacer>
+        <v-btn @click="createNewCourse" color="mainColor" dark class="button-admin">Create New Course</v-btn>
+        <v-btn @click="deleteAllCourses" color="mainColor" dark class="button-admin">Delete All Courses</v-btn>
       </v-layout>
       <v-card id="card-course-overview">
         <v-data-table
@@ -27,25 +29,30 @@
             </tr>
           </template>
           <template slot="no-data">
-            <v-progress-linear :indeterminate="true" color="#43425D"></v-progress-linear>
+            <v-card-text color="mainColor" text-xs-center>
+              No courses availble
+            </v-card-text>
           </template>
            <template slot="items" slot-scope="props">
             <td class="justify-left px-4">
-              <v-icon
+              <v-tooltip bottom style="cursor: pointer">
+                <v-icon
                 small
+                slot="activator"
                 color="mainColor"
                 class="mr-3"
-                @click="[getCourseInfo(props.item), viewResult()]"
-              >
-                remove_red_eye
-              </v-icon>
-              <v-icon
+                @click="[getCourseInfo(props.item), viewResult()]">remove_red_eye</v-icon>
+                <span>View Course</span>
+              </v-tooltip>
+              <v-tooltip bottom style="cursor: pointer">
+                <v-icon
                 small
+                slot="activator"
                 color="mainColor"
-                @click="[getCourseInfo(props.item), deleteCourse()]"
-              >
-                delete
-              </v-icon>
+                class="mr-3"
+                @click="[getCourseInfo(props.item), deleteCourse()]">delete</v-icon>
+                <span>Delete Course</span>
+              </v-tooltip>
             </td>
             <td class="text-xs-left">
               {{ props.item.course_id }}
@@ -94,6 +101,13 @@
         :courseInfo="courseInfo">
       </delete-course>
     </v-dialog>
+    <v-dialog v-model="dialog.deleteAllCourses" max-width="400px">
+      <delete-all-courses
+        @closeDialog='dialog.deleteAllCourses=$event'
+        @snackbarMessage='snackbar.snackbarMessage=$event'
+        @showSnackbar='snackbar.value=$event'>
+      </delete-all-courses>
+    </v-dialog>
   </v-layout>
 </template>
 
@@ -102,6 +116,7 @@ import { mapState } from 'vuex'
 import ViewResultCourse from './ViewResultCourse.vue'
 import CreateNewCourse from './CreateNewCourse.vue'
 import DeleteCourse from './DeleteCourse.vue'
+import DeleteAllCourses from './DeleteAllCourses.vue'
 
 export default {
   data () {
@@ -130,6 +145,7 @@ export default {
         viewResult: false,
         createNewCourse: false,
         deleteCourse: false,
+        deleteAllCourses: false,
         key: 0
       },
       snackbar: {
@@ -171,18 +187,22 @@ export default {
       this.dialog.viewResult = true
       this.getCourseSurvey(this.courseInfo.id, this.courseInfo.course_id)
     },
-    createNewAccount () {
+    createNewCourse () {
       this.dialog.key++
       this.dialog.createNewCourse = true
     },
     deleteCourse () {
       this.dialog.deleteCourse = true
+    },
+    deleteAllCourses () {
+      this.dialog.deleteAllCourses = true
     }
   },
   components: {
     viewResult: ViewResultCourse,
     createNewCourse: CreateNewCourse,
-    deleteCourse: DeleteCourse
+    deleteCourse: DeleteCourse,
+    deleteAllCourses: DeleteAllCourses
   },
   watch: {
     viewResult (val) {

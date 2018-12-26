@@ -1,12 +1,13 @@
 <template>
-  <v-layout id="layout-course-overview" align-start justify-center row fill-height>
+  <v-layout class="layout-course-overview" align-start justify-center row fill-height>
     <v-flex>
       <v-layout row>
         <v-spacer/>
         <v-btn @click="dialog.importListAccounts=true" color="mainColor" dark class="button-admin">Import List Accounts</v-btn>
         <v-btn @click="dialog.createAccount=true" color="mainColor" dark class="button-admin">Create New Account</v-btn>
+        <v-btn @click="dialog.deleteAllAccounts=true" color="mainColor" dark class="button-admin">Delete All Accounts</v-btn>
       </v-layout>
-      <v-card id="card-course-overview">
+      <v-card class="card-course-overview">
         <v-data-table
           :headers="headers"
           :items="accounts"
@@ -29,7 +30,9 @@
             </tr>
           </template>
           <template slot="no-data">
-            <v-progress-linear :indeterminate="true" color="#43425D"></v-progress-linear>
+            <v-card-text color="mainColor" text-xs-center>
+              No accounts availble
+            </v-card-text>
           </template>
            <template slot="items" slot-scope="props">
             <td class="text-xs-left">
@@ -95,6 +98,13 @@
         :userInfo="userInfo">
       </edit-account>
     </v-dialog>
+    <v-dialog v-model="dialog.deleteAllAccounts" max-width="400px">
+      <delete-all-accounts
+        @closeDialog='dialog.deleteAllAccounts=$event'
+        @snackbarMessage='snackbar.snackbarMessage=$event'
+        @showSnackbar='snackbar.value=$event'>
+      </delete-all-accounts>
+    </v-dialog>    
   </v-layout>
 </template>
 
@@ -105,6 +115,7 @@ import DeleteAccount from './DeleteAccount.vue'
 import UpdatePassword from './UpdatePassword.vue'
 import EditAccount from './EditAccount.vue'
 import ImportListAccounts from './ImportListAccounts.vue'
+import DeleteAllAccounts from './DeleteAllAccounts.vue'
 
 export default {
   data () {
@@ -138,7 +149,8 @@ export default {
         deleteAccount: false,
         updatePassword: false,
         editAccount: false,
-        importListAccounts: false
+        importListAccounts: false,
+        deleteAllAccounts: false
       },
       snackbar: {
         value: false,
@@ -177,7 +189,6 @@ export default {
       this.userInfo.vnuemail = item.vnuemail
       this.userInfo.classname = item.classname
       this.userInfo.role = item.role
-      // console.log(this.userInfo)
     }
   },
   components: {
@@ -185,7 +196,8 @@ export default {
     deleteAccount: DeleteAccount,
     updatePassword: UpdatePassword,
     editAccount: EditAccount,
-    importListAccounts: ImportListAccounts
+    importListAccounts: ImportListAccounts,
+    deleteAllAccounts: DeleteAllAccounts
   },
   watch: {
     createAccount (val) {
@@ -208,7 +220,7 @@ export default {
 </script>
 
 <style scoped>
-#layout-course-overview {
+.layout-course-overview {
   margin: 10px;
 }
 .mytable .v-table thead tr th {

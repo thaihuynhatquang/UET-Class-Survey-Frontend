@@ -24,12 +24,12 @@ import Header from './components/UI/Header.vue'
 export default {
   data () {
     return {
-        snackbar: {
+      snackbar: {
         value: false,
         snackbarMessage: 'Your session is end',
         snackbarTimeout: 3000,
         colorSnackbar: 'white'
-      },
+      }
     }
   },
   name: 'App',
@@ -50,7 +50,7 @@ export default {
   created () {
     this.$http.interceptors.response.use(undefined, err => {
       return new Promise((resolve, reject) => {
-        if (err.response.status === 401 && err.response.data.message === "jwt expired") {
+        if (err.response.status === 401 && err.response.data.message === 'jwt expired') {
           // eslint-disable-next-line
           this.$store.dispatch('logout')
             .then(() => {
@@ -58,7 +58,7 @@ export default {
               this.snackbar.value = true
             })
         }
-        throw err        
+        throw err
       })
     })
   },

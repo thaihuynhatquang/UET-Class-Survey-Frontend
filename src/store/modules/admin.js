@@ -13,6 +13,10 @@ const state = {
 
 const mutations = {
   'GET_ALL_ACCOUNTS' (state, accounts) {
+    if (accounts.length = 0) {
+      state.accounts = []
+      return
+    }
     for (let account of accounts) {
       if (account.role === 2) {
         account.role = 'Lecturer'
@@ -32,6 +36,10 @@ const mutations = {
 
   'GET_ALL_COURSES' (state, courses) {
     state.courses = courses
+  },
+
+  'DELETE_ALL_COURSES' (state) {
+    state.courses = []
   },
 
   'GET_RESULT' (state, result) {
@@ -54,7 +62,6 @@ const actions = {
           resolve(resp)
         })
         .catch(err => {
-          console.log(err)
           reject(err)
         })
     })
@@ -83,6 +90,21 @@ const actions = {
         })
         .catch(err => {
           console.log(err.response.data)
+          reject(err)
+        })
+    })
+  },
+
+  deleteAllAccounts ({commit}) {
+    return new Promise((resolve, reject) => {
+      axios.delete('http://localhost:3000/api/allAccounts')
+        .then(resp => {
+          console.log(resp.data)
+          commit('GET_ALL_ACCOUNTS')
+          resolve(resp)
+        })
+        .catch(err => {
+          console.log(err.response)
           reject(err)
         })
     })
@@ -134,11 +156,12 @@ const actions = {
       axios.get('http://localhost:3000/api/courses')
         .then(resp => {
           let courses = resp.data
+          console.log(courses)
           commit('GET_ALL_COURSES', courses)
           resolve(resp)
         })
         .catch(err => {
-          console.log(err)
+          // console.log(err.response.data)
           reject(err)
         })
     })
@@ -189,6 +212,21 @@ const actions = {
     })
   },
 
+  deleteAllCourses ({commit}) {
+    return new Promise((resolve, reject) => {
+      axios.delete('http://localhost:3000/api/courses')
+        .then(resp => {
+          console.log(resp.data)
+          commit('GET_ALL_COURSES')
+          resolve(resp)
+        })
+        .catch(err => {
+          console.log(err.response.data)
+          reject(err)
+        })
+    })
+  },
+
   getForm ({commit}) {
     return new Promise((resolve, reject) => {
       axios.get('http://localhost:3000/api/form')
@@ -203,6 +241,20 @@ const actions = {
         })
     })
   },
+
+  createNewCriteria ({commit}, data) {
+    return new Promise((resolve, reject) => {
+      axios.post('http://localhost:3000/api/criteria', data)
+        .then(resp => {
+          console.log(resp.data)
+          resolve(resp)
+        })
+        .catch(err => {
+          console.log(err.response.data)
+          reject(err)
+        })
+    })
+  }
 
 }
 

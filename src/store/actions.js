@@ -58,14 +58,6 @@ export default {
           resolve(resp)
         })
         .catch(err => {
-          // if (err.response.data.message === "jwt expired") {
-          //   console.log("Loi Roi !!!!!")
-          //   localStorage.removeItem('token')
-          //   localStorage.removeItem('roleStatus')
-          //   delete axios.defaults.headers.common['Authorization']
-          //   delete axios.defaults.headers.common['Content-Type']
-          //   commit('LOGOUT')           
-          // }
           console.log(err.response)
           reject(err)
         })
