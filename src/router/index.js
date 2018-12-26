@@ -10,7 +10,7 @@ import StudentProfile from '@/components/Student/UserProfile.vue'
 import LecturerProfile from '@/components/Lecturer/UserProfile.vue'
 import Admin from '@/components/Admin/Admin.vue'
 import ManageAccounts from '@/components/Admin/Accounts/ManageAccounts'
-import ManageCourses from '@/components/Admin/Courses/ManageCourses'
+import ManageSurveys from '@/components/Admin/Surveys/ManageSurveys'
 import ManageForm from '@/components/Admin/Form/ManageForm'
 
 Vue.use(Router)
@@ -134,9 +134,9 @@ let router = new Router({
           }
         },
         {
-          path: 'courses',
-          name: 'Manage Courses',
-          component: ManageCourses,
+          path: 'surveys',
+          name: 'Manage Surveys',
+          component: ManageSurveys,
           meta: { requiresAuth: true },
           beforeEnter (to, from, next) {
             let role = localStorage.getItem('roleStatus')

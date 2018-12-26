@@ -3,8 +3,8 @@
     <v-flex>
       <v-layout row>
         <v-spacer/>
-        <v-btn @click="dialog.importListAccounts=true" color="mainColor" dark class="button-admin">Import List Accounts</v-btn>
-        <v-btn @click="dialog.createAccount=true" color="mainColor" dark class="button-admin">Create New Account</v-btn>
+        <v-btn @click="[dialog.importListAccounts=true, dialog.key++]" color="mainColor" dark class="button-admin">Import List Accounts</v-btn>
+        <v-btn @click="[dialog.createAccount=true, dialog.key++]" color="mainColor" dark class="button-admin">Create New Account</v-btn>
         <v-btn @click="dialog.deleteAllAccounts=true" color="mainColor" dark class="button-admin">Delete All Accounts</v-btn>
       </v-layout>
       <v-card class="card-course-overview">
@@ -30,17 +30,17 @@
             </tr>
           </template>
           <template slot="no-data">
-            <v-card-text color="mainColor" text-xs-center>
-              No accounts availble
+            <v-card-text text-xs-center>
+              <span style="color: #43425D;">No accounts availble</span>
             </v-card-text>
           </template>
            <template slot="items" slot-scope="props">
             <td class="text-xs-left">
               {{ props.item.username }}
               <br>
-              <span @click="[dialog.editAccount=true, getUserInfor(props.item)]" style="cursor: pointer;">Edit</span>
-              <span @click="[dialog.deleteAccount=true, getUserInfor(props.item)]" style="cursor: pointer;">Delete</span>
-              <span @click="[dialog.updatePassword=true, getUserInfor(props.item)]" style="cursor: pointer;">Update Password</span>
+              <span @click="[dialog.editAccount=true, getUserInfor(props.item), dialog.key++]" style="cursor: pointer;">Edit</span>
+              <span @click="[dialog.deleteAccount=true, getUserInfor(props.item), dialog.key++]" style="cursor: pointer;">Delete</span>
+              <span @click="[dialog.updatePassword=true, getUserInfor(props.item), dialog.key++]" style="cursor: pointer;">Update Password</span>
             </td>
             <td class="text-xs-left">{{ props.item.fullname }}</td>
             <td class="text-xs-left">{{ props.item.vnuemail }}</td>
@@ -55,12 +55,14 @@
       :color="snackbar.colorSnackbar"
       :timeout="snackbar.snackbarTimeout"
     >
-      <v-icon>check_circle</v-icon>
+      <v-icon v-if="snackbar.success === true">check_circle</v-icon>
+      <v-icon v-else>error_outline</v-icon>
       <v-btn color="#66615B" flat @click="snackbar.value = false">{{ snackbar.snackbarMessage }}</v-btn>
     </v-snackbar>
 
     <v-dialog v-model="dialog.importListAccounts" persistent max-width="400px">
       <import-list-accounts
+        :key="dialog.key"
         @closeDialog='dialog.importListAccounts=$event'
         @showSnackbar='snackbar.value=$event'
         @snackbarMessage='snackbar.snackbarMessage=$event'>
@@ -68,8 +70,10 @@
     </v-dialog>
     <v-dialog v-model="dialog.createAccount" max-width="600px">
       <create-account
+        :key="dialog.key"
         @closeDialog='dialog.createAccount=$event'
         @showSnackbar='snackbar.value=$event'
+        @success='snackbar.success=$event'
         @snackbarMessage='snackbar.snackbarMessage=$event'>
       </create-account>
     </v-dialog>
@@ -86,14 +90,15 @@
         @closeDialog='dialog.updatePassword=$event'
         @snackbarMessage='snackbar.snackbarMessage=$event'
         @showSnackbar='snackbar.value=$event'
-        :user="userInfo.userId"
-        :name="userInfo.fullname">
+        :userInfo="userInfo"
+        :key="dialog.key">
       </update-password>
     </v-dialog>
     <v-dialog v-model="dialog.editAccount" max-width="600px">
       <edit-account
         @closeDialog='dialog.editAccount=$event'
         @snackbarMessage='snackbar.snackbarMessage=$event'
+        @success='snackbar.success=$event'
         @showSnackbar='snackbar.value=$event'
         :userInfo="userInfo">
       </edit-account>
@@ -104,7 +109,7 @@
         @snackbarMessage='snackbar.snackbarMessage=$event'
         @showSnackbar='snackbar.value=$event'>
       </delete-all-accounts>
-    </v-dialog>    
+    </v-dialog>
   </v-layout>
 </template>
 
@@ -120,6 +125,7 @@ import DeleteAllAccounts from './DeleteAllAccounts.vue'
 export default {
   data () {
     return {
+      key: 0,
       headers: [
         {
           text: 'USERNAME',
@@ -150,12 +156,14 @@ export default {
         updatePassword: false,
         editAccount: false,
         importListAccounts: false,
-        deleteAllAccounts: false
+        deleteAllAccounts: false,
+        key: 0
       },
       snackbar: {
         value: false,
         snackbarMessage: '',
         snackbarTimeout: 3000,
+        success: true,
         colorSnackbar: 'white'
       },
       userInfo: {

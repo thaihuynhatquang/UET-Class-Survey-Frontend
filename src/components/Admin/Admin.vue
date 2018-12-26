@@ -10,10 +10,10 @@
             <span class="text-tooltip">Manage Accounts</span>
           </v-tooltip>
         </v-btn>
-        <v-btn icon :ripple="false" v-if="responsive" to="/admin/courses">
+        <v-btn icon :ripple="false" v-if="responsive" to="/admin/surveys">
           <v-tooltip bottom>
             <v-icon slot="activator" color="#43425D">dashboard</v-icon>
-            <span class="text-tooltip">Manage Courses</span>
+            <span class="text-tooltip">Manage Surveys</span>
           </v-tooltip>
         </v-btn>
         <v-btn icon :ripple="false" v-if="responsive" to="/admin/form">
@@ -60,6 +60,7 @@ export default {
     this.$store.dispatch('admin/getAllAccounts')
     this.$store.dispatch('admin/getAllCourses')
     this.$store.dispatch('admin/getForm')
+    this.$store.dispatch('admin/checkStatusForm')
   },
   mounted () {
     this.onResponsiveInverted()

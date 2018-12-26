@@ -10,8 +10,16 @@ const state = {
 
 const mutations = {
   'SET_COURSES' (state, courses) {
+    if (courses === undefined || courses.length === 0) {
+      state.courses = []
+      return
+    }
     state.courses = courses
     state.totalCourses = courses.length
+  },
+  'DEL_COURSES' (state, courses) {
+    state.courses = []
+    state.totalCourses = 0
   },
   'SET_FORMS' (state, forms) {
     state.forms = forms
@@ -28,8 +36,8 @@ const actions = {
           resolve(resp)
         })
         .catch(err => {
-          console.log(err)
-          reject(err)
+          commit('SET_COURSES')
+          reject(err.response.data)
         })
     })
   },
@@ -42,8 +50,7 @@ const actions = {
           resolve(resp)
         })
         .catch(err => {
-          console.log(err)
-          reject(err)
+          reject(err.response.data)
         })
     })
   },
@@ -56,8 +63,7 @@ const actions = {
           resolve(resp)
         })
         .catch(err => {
-          console.log(err)
-          reject(err)
+          reject(err.response.data)
         })
     })
   },
@@ -68,8 +74,7 @@ const actions = {
           resolve(resp)
         })
         .catch(err => {
-          console.log(err)
-          reject(err)
+          reject(err.response.data)
         })
     })
   },
@@ -80,8 +85,7 @@ const actions = {
           resolve(resp)
         })
         .catch(err => {
-          console.log(err)
-          reject(err)
+          reject(err.response.data)
         })
     })
   },
@@ -92,8 +96,7 @@ const actions = {
           resolve(resp)
         })
         .catch(err => {
-          console.log(err)
-          reject(err)
+          reject(err.response.data)
         })
     })
   }

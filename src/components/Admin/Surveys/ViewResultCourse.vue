@@ -17,7 +17,7 @@
     </v-layout>
     <v-layout align-start justify-center row fill-height>
       <v-flex>
-        <v-list three-line>
+        <v-list v-if="surveyResult.length > 0" three-line>
           <template v-for="(item, index) in surveyResult">
             <v-card :key="index" flat  class="my-2 mx-2">
               <v-list-tile>
@@ -70,6 +70,9 @@
             <v-divider :key="`divider-${index}`"></v-divider>
           </template>
         </v-list>
+        <v-card-text v-else color="mainColor">
+          <span style="color: #43425D; font-size: 15px;"><em>Nobody has done their survey yet</em></span>
+        </v-card-text>
       </v-flex>
     </v-layout>
     <v-layout align-start justify-center column fill-height>

@@ -31,7 +31,6 @@ export default {
       let data = {
         course_id: this.courseInfo.course_id + ''
       }
-      console.log(data)
       this.$store.dispatch('admin/deleteCourse', data)
         .then(() => {
           this.closeDialog()
@@ -39,6 +38,7 @@ export default {
           let showSnackbar = true
           this.$emit('snackbarMessage', snackbarMessage)
           this.$emit('showSnackbar', showSnackbar)
+          this.$store.dispatch('admin/checkStatusForm')
           this.$store.dispatch('admin/getAllCourses')
         })
     }

@@ -69,7 +69,8 @@
       :color="snackbar.colorSnackbar"
       :timeout="snackbar.snackbarTimeout"
     >
-      <v-icon>check_circle</v-icon>
+      <v-icon v-if="snackbar.success === true">check_circle</v-icon>
+      <v-icon v-else>error_outline</v-icon>
       <v-btn color="#66615B" flat @click="snackbar.value = false">{{ snackbar.snackbarMessage }}</v-btn>
     </v-snackbar>
 
@@ -83,11 +84,12 @@
         >
       </view-result>
     </v-dialog>
-    <v-dialog v-model="dialog.createNewCourse" max-width="600px">
+    <v-dialog persistent v-model="dialog.createNewCourse" max-width="600px">
       <create-new-course
         @closeDialog='dialog.createNewCourse=$event'
         @snackbarMessage='snackbar.snackbarMessage=$event'
         @showSnackbar='snackbar.value=$event'
+        @success='snackbar.success=$event'
         :courseInfo="courseInfo"
         :key="dialog.key"
         >
@@ -152,6 +154,7 @@ export default {
         value: false,
         snackbarMessage: '',
         snackbarTimeout: 3000,
+        success: true,
         colorSnackbar: 'white'
       },
       courseInfo: {}

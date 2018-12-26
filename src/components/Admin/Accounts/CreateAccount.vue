@@ -173,6 +173,16 @@ export default {
           this.$store.dispatch('admin/getAllAccounts')
           this.closeDialog()
         })
+        .catch(err => {
+          console.log(err.response.data)
+          let snackbarMessage = 'Error: ' + err.response.data.message
+          let showSnackbar = true
+          let success = false
+          this.$emit('showSnackbar', showSnackbar)
+          this.$emit('success', success)
+          this.$emit('snackbarMessage', snackbarMessage)
+          this.closeDialog()
+        })
     },
     closeDialog () {
       this.dialog = false

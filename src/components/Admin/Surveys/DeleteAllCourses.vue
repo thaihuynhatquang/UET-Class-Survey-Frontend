@@ -29,12 +29,12 @@ export default {
     deleteCourse () {
       this.$store.dispatch('admin/deleteAllCourses')
         .then(() => {
-          this.closeDialog()
           let snackbarMessage = 'Delete all courses success'
           let showSnackbar = true
           this.$emit('snackbarMessage', snackbarMessage)
           this.$emit('showSnackbar', showSnackbar)
-          this.$store.dispatch('admin/getAllCourses')
+          this.$store.dispatch('admin/checkStatusForm')
+          this.closeDialog()
         })
     }
   }

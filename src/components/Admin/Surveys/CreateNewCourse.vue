@@ -2,6 +2,8 @@
   <v-card>
     <v-toolbar dark color="mainColor" class="myToolbar">
       <v-toolbar-title>New Course</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-icon @click="closeDialog">close</v-icon>
     </v-toolbar>
     <v-card-text>
       <form @submit.prevent="createNewCourse">
@@ -144,11 +146,24 @@ export default {
           this.$emit('showSnackbar', showSnackbar)
           this.$emit('snackbarMessage', snackbarMessage)
           this.$store.dispatch('admin/getAllCourses')
+          this.$store.dispatch('admin/checkStatusForm')
           this.closeDialog()
         })
-        .catch((err) => {
+        .catch(err => {
+          console.log(err.response.data)
           this.$refs.importStudents.value = ''
-          console.log(err.response.data.message)
+          let snackbarMessage = 'Error '
+          if (err.response.data.message === 'New course_id existed') {
+            snackbarMessage = 'Error: CourseID is existed'
+          } else {
+            snackbarMessage = 'Error: ' + err.response.data.message
+          }
+          let showSnackbar = true
+          let success = false
+          this.$emit('showSnackbar', showSnackbar)
+          this.$emit('success', success)
+          this.$emit('snackbarMessage', snackbarMessage)
+          this.closeDialog()
         })
     },
     importListStudents () {

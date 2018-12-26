@@ -6,6 +6,7 @@ const state = {
   accounts: [],
   courses: [],
   form: [],
+  statusForm: '',
   surveyResult: [],
   surveyInfo: {},
   lecturers: []
@@ -13,7 +14,7 @@ const state = {
 
 const mutations = {
   'GET_ALL_ACCOUNTS' (state, accounts) {
-    if (accounts.length = 0) {
+    if (accounts === undefined || accounts.length === 0) {
       state.accounts = []
       return
     }
@@ -34,7 +35,15 @@ const mutations = {
     state.accounts = accounts
   },
 
+  'DELETE_ALL_ACCOUNTS' (state) {
+    state.accounts = []
+  },
+
   'GET_ALL_COURSES' (state, courses) {
+    if (courses === undefined || courses.length === 0) {
+      state.courses = []
+      return
+    }
     state.courses = courses
   },
 
@@ -48,7 +57,15 @@ const mutations = {
   },
 
   'GET_FORM' (state, form) {
+    if (form === undefined || form.length === 0) {
+      state.form = []
+      return
+    }
     state.form = form
+  },
+
+  'STATUS_FORM' (state, statusForm) {
+    state.statusForm = statusForm
   }
 }
 
@@ -58,11 +75,12 @@ const actions = {
       axios.get('http://localhost:3000/api/allAccounts')
         .then(resp => {
           let accounts = resp.data
+          console.log('Accounts: ', accounts)
           commit('GET_ALL_ACCOUNTS', accounts)
           resolve(resp)
         })
         .catch(err => {
-          reject(err)
+          reject(err.response.data)
         })
     })
   },
@@ -75,7 +93,6 @@ const actions = {
           resolve(resp)
         })
         .catch(err => {
-          console.log(err)
           reject(err)
         })
     })
@@ -89,8 +106,7 @@ const actions = {
           resolve(resp)
         })
         .catch(err => {
-          console.log(err.response.data)
-          reject(err)
+          reject(err.response.data)
         })
     })
   },
@@ -99,13 +115,11 @@ const actions = {
     return new Promise((resolve, reject) => {
       axios.delete('http://localhost:3000/api/allAccounts')
         .then(resp => {
-          console.log(resp.data)
-          commit('GET_ALL_ACCOUNTS')
           resolve(resp)
+          commit('DELETE_ALL_ACCOUNTS')
         })
         .catch(err => {
-          console.log(err.response)
-          reject(err)
+          reject(err.response.data)
         })
     })
   },
@@ -118,8 +132,7 @@ const actions = {
           resolve(resp)
         })
         .catch(err => {
-          console.log(err.response.data)
-          reject(err)
+          reject(err.response.data)
         })
     })
   },
@@ -132,8 +145,7 @@ const actions = {
           resolve(resp)
         })
         .catch(err => {
-          console.log(err.response.data)
-          reject(err)
+          reject(err.response.data)
         })
     })
   },
@@ -145,8 +157,7 @@ const actions = {
           resolve(resp)
         })
         .catch(err => {
-          console.log(err.response.data)
-          reject(err)
+          reject(err.response.data)
         })
     })
   },
@@ -156,13 +167,11 @@ const actions = {
       axios.get('http://localhost:3000/api/courses')
         .then(resp => {
           let courses = resp.data
-          console.log(courses)
           commit('GET_ALL_COURSES', courses)
           resolve(resp)
         })
         .catch(err => {
-          // console.log(err.response.data)
-          reject(err)
+          reject(err.response.data)
         })
     })
   },
@@ -177,8 +186,7 @@ const actions = {
           resolve(resp)
         })
         .catch(err => {
-          console.log(err)
-          reject(err)
+          reject(err.response.data)
         })
     })
   },
@@ -192,7 +200,7 @@ const actions = {
           resolve(resp)
         })
         .catch(err => {
-          console.log(err)
+          console.log(err.response)
           reject(err)
         })
     })
@@ -206,8 +214,7 @@ const actions = {
           resolve(resp)
         })
         .catch(err => {
-          console.log(err.response.data)
-          reject(err)
+          reject(err.response.data)
         })
     })
   },
@@ -217,12 +224,11 @@ const actions = {
       axios.delete('http://localhost:3000/api/courses')
         .then(resp => {
           console.log(resp.data)
-          commit('GET_ALL_COURSES')
+          commit('DELETE_ALL_COURSES')
           resolve(resp)
         })
         .catch(err => {
-          console.log(err.response.data)
-          reject(err)
+          reject(err.response.data)
         })
     })
   },
@@ -236,8 +242,7 @@ const actions = {
           resolve(resp)
         })
         .catch(err => {
-          console.log(err)
-          reject(err)
+          reject(err.response.data)
         })
     })
   },
@@ -250,12 +255,48 @@ const actions = {
           resolve(resp)
         })
         .catch(err => {
-          console.log(err.response.data)
-          reject(err)
+          reject(err.response.data)
+        })
+    })
+  },
+
+  checkStatusForm ({commit}) {
+    return new Promise((resolve, reject) => {
+      axios.get('http://localhost:3000/api/checkUpdateForm')
+        .then(resp => {
+          let statusForm = resp.data
+          commit('STATUS_FORM', statusForm)
+          resolve(resp)
+        })
+        .catch(err => {
+          reject(err.response.data)
+        })
+    })
+  },
+
+  deleteCriteria ({commit}, criteria) {
+    return new Promise((resolve, reject) => {
+      axios.delete('http://localhost:3000/api/criteria', { data: criteria })
+        .then(resp => {
+          resolve(resp)
+        })
+        .catch(err => {
+          reject(err.response.data)
+        })
+    })
+  },
+
+  editCriteria ({commit}, data) {
+    return new Promise((resolve, reject) => {
+      axios.put('http://localhost:3000/api/criteria', data)
+        .then(resp => {
+          resolve(resp)
+        })
+        .catch(err => {
+          reject(err.response.data)
         })
     })
   }
-
 }
 
 const getters = {

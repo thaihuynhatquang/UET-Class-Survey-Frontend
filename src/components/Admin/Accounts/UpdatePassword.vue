@@ -7,7 +7,7 @@
       <v-container grid-list-md>
         <form @submit.prevent="updatePassword">
           <v-layout wrap>
-            <h2 class="text-xs-left align-left">Login Information of {{ name }}</h2>
+            <h2 class="text-xs-left align-left">Login Information of {{ userInfo.fullname }}</h2>
               <v-flex xs11>
                 <v-text-field
                   color="#43425D"
@@ -42,7 +42,7 @@
                 Cancel
               </v-btn>
               <v-btn dark color="#43425D" type="submit">
-                Create
+                Save
               </v-btn>
             </v-flex>
           </v-layout>
@@ -56,12 +56,10 @@
 export default {
   props: {
     dialog: Boolean,
-    userId: String,
-    name: String
+    userInfo: Object
   },
   data () {
     return {
-      oldPassword: '',
       newPassword: '',
       confirmNewPassword: '',
       showPassword: false,
@@ -74,7 +72,7 @@ export default {
   },
   computed: {
     comparePasswords () {
-      return (this.newPassword !== this.confirmPassword && this.confirmPassword !== '')
+      return (this.newPassword !== this.confirmNewPassword && this.confirmNewPassword !== '')
         ? 'Password does not match'
         : true
     }
@@ -82,13 +80,13 @@ export default {
   methods: {
     updatePassword () {
       let data = {
-        id: this.userId,
+        id: this.userInfo.userId,
         password: this.newPassword
       }
       console.log(data)
       this.$store.dispatch('admin/updatePassword', data)
         .then(() => {
-          let snackbarMessage = 'Update account successfully'
+          let snackbarMessage = 'Update password successfully'
           let showSnackbar = true
           this.closeDialog()
           this.$emit('showSnackbar', showSnackbar)
