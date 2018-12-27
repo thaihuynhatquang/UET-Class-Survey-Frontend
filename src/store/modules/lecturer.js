@@ -2,8 +2,8 @@ const axios = require('axios')
 
 const namespaced = true
 
-const url = 'http://localhost:3000'
-// const url = 'https://uet-class-survey-backend.herokuapp.com'
+// const url = 'http://localhost:3000'
+const url = 'https://uet-class-survey-backend.herokuapp.com'
 
 const state = {
   courses: [],

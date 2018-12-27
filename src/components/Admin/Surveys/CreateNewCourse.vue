@@ -89,7 +89,15 @@
               color="mainColor"
               disabled
             >Create Course</v-btn>
-            <v-btn dark v-else color="mainColor" type="submit">Create Course</v-btn>
+            <v-btn
+              v-else
+              color="mainColor"
+              type="submit"
+              :loading="loadingButtonIcon"
+              :disabled="loadingButtonIcon"
+            >
+              <div class="text-button-survey">Create Course</div>
+            <v-icon right color="white">cloud_upload</v-icon></v-btn>
           </v-layout>
         </v-container>
       </form>
@@ -115,7 +123,8 @@ export default {
         listStudents: '',
         filename: ''
       },
-      haveFile: false
+      haveFile: false,
+      loadingButtonIcon: false
     }
   },
   computed: {
@@ -128,6 +137,7 @@ export default {
   },
   methods: {
     createNewCourse () {
+      this.loadingButtonIcon = true
       this.importListStudents()
       let formData = new FormData()
       formData.append('file', this.fileSelected.listStudents)
@@ -147,6 +157,7 @@ export default {
           this.$emit('snackbarMessage', snackbarMessage)
           this.$store.dispatch('admin/getAllCourses')
           this.$store.dispatch('admin/checkStatusForm')
+          this.loadingButtonIcon = false
           this.closeDialog()
         })
         .catch(err => {
@@ -185,5 +196,7 @@ export default {
 </script>
 
 <style scoped>
-
+.text-button-survey {
+  color: white;
+}
 </style>

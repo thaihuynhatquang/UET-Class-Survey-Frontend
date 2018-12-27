@@ -2,8 +2,8 @@ const axios = require('axios')
 
 const namespaced = true
 
-const url = 'http://localhost:3000'
-// const url = 'https://uet-class-survey-backend.herokuapp.com'
+// const url = 'http://localhost:3000'
+const url = 'https://uet-class-survey-backend.herokuapp.com'
 
 const state = {
   accounts: [],
@@ -116,19 +116,6 @@ const actions = {
     })
   },
 
-  deleteAllAccounts ({commit}) {
-    return new Promise((resolve, reject) => {
-      axios.delete(url + '/api/allAccounts')
-        .then(resp => {
-          resolve(resp)
-          commit('DELETE_ALL_ACCOUNTS')
-        })
-        .catch(err => {
-          reject(err.response.data)
-        })
-    })
-  },
-
   deleteMultiAccounts ({commit}, listId) {
     return new Promise((resolve, reject) => {
       axios.delete(url + '/api/someAccounts', { data: listId })
@@ -229,19 +216,6 @@ const actions = {
     return new Promise((resolve, reject) => {
       axios.delete(url + '/api/course', { data: courseId })
         .then(resp => {
-          resolve(resp)
-        })
-        .catch(err => {
-          reject(err.response.data)
-        })
-    })
-  },
-
-  deleteCourses ({commit}) {
-    return new Promise((resolve, reject) => {
-      axios.delete(url + '/api/courses')
-        .then(resp => {
-          commit('DELETE_ALL_COURSES')
           resolve(resp)
         })
         .catch(err => {

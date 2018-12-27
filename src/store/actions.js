@@ -2,8 +2,8 @@
 
 const axios = require('axios')
 
-const url = 'http://localhost:3000'
-// const url = 'https://uet-class-survey-backend.herokuapp.com'
+// const url = 'http://localhost:3000'
+const url = 'https://uet-class-survey-backend.herokuapp.com'
 
 export default {
   login ({commit}, user) {
