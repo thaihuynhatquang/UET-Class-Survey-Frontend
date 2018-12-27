@@ -3,10 +3,17 @@
     <v-flex>
       <v-card class="card-course-overview">
         <template v-if="statusUpdateFrom === true">
-          <v-btn transition="slide-y-reverse-transition" v-if="addNewCriteria === false" @click="addNewCriteria = true" color="mainColor" flat style="margin-left: 0px; margin-right: 0px;">
-            <v-icon color="mainColor" medium>add_circle_outline</v-icon>
-            <span class="listCriteria" style="margin-left: 5px;">Add New Criteria</span>
-          </v-btn>
+          <template  v-if="addNewCriteria === false">
+            <v-layout row wrap>
+
+              <v-btn transition="slide-y-reverse-transition" @click="addNewCriteria = true" color="mainColor" flat style="margin-left: 0px; margin-right: 0px;">
+                <v-icon color="mainColor" medium>add_circle_outline</v-icon>
+                <span class="listCriteria" style="margin-left: 5px;">Add New Criteria</span>
+              </v-btn>
+              <v-spacer></v-spacer>
+              <v-btn color="mainColor" dark @click="revertToDefault">Revert to default</v-btn>
+            </v-layout>
+          </template>
           <form v-else @submit.prevent="createNewCriteria">
             <v-layout row wrap class="add-new-criteria">
               <v-flex xs11>
@@ -150,6 +157,15 @@ export default {
       this.dialog.key++
       this.criteria = item
       console.log(item)
+    },
+    revertToDefault () {
+      console.log('hello')
+      this.$store.dispatch('admin/getDefaultCriteria')
+        .then(() => {
+          this.snackbar.value = true
+          this.snackbar.snackbarMessage = 'Revert to default criteria successfully'
+          this.$store.dispatch('admin/getForm')
+        })
     }
   },
   computed: {

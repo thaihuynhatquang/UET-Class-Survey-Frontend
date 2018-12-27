@@ -3,6 +3,9 @@
     <v-flex>
       <v-card id="card-course-overview">
         <v-list>
+        <v-card-text v-if="items.length === 0">
+          You have no courses!
+        </v-card-text>
         <template v-for="(item, index) in items">
           <v-list-tile :key="index" class="my-2 mx-2">
             <v-list-tile-content>

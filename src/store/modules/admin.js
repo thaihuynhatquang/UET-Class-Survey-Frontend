@@ -241,6 +241,7 @@ const actions = {
       axios.get(url + '/api/form')
         .then(resp => {
           let form = resp.data
+          console.log('Form: ', form)
           commit('GET_FORM', form)
           resolve(resp)
         })
@@ -281,6 +282,19 @@ const actions = {
     return new Promise((resolve, reject) => {
       axios.delete(url + '/api/criteria', { data: criteria })
         .then(resp => {
+          resolve(resp)
+        })
+        .catch(err => {
+          reject(err.response.data)
+        })
+    })
+  },
+
+  getDefaultCriteria ({commit}) {
+    return new Promise((resolve, reject) => {
+      axios.post(url + '/api/resetForm')
+        .then(resp => {
+          console.log(resp.data)
           resolve(resp)
         })
         .catch(err => {
