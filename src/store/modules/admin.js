@@ -2,6 +2,9 @@ const axios = require('axios')
 
 const namespaced = true
 
+const url = 'http://localhost:3000'
+// const url = 'https://uet-class-survey-backend.herokuapp.com'
+
 const state = {
   accounts: [],
   courses: [],
@@ -74,7 +77,7 @@ const mutations = {
 const actions = {
   getAllAccounts ({commit}) {
     return new Promise((resolve, reject) => {
-      axios.get('http://localhost:3000/api/allAccounts')
+      axios.get(url + '/api/allAccounts')
         .then(resp => {
           let accounts = resp.data
           console.log('Accounts: ', accounts)
@@ -90,7 +93,7 @@ const actions = {
 
   createAccount ({commit}, data) {
     return new Promise((resolve, reject) => {
-      axios.post('http://localhost:3000/api/account', data)
+      axios.post(url + '/api/account', data)
         .then(resp => {
           console.log(resp.data)
           resolve(resp)
@@ -103,7 +106,7 @@ const actions = {
 
   deleteAccount ({commit}, id) {
     return new Promise((resolve, reject) => {
-      axios.delete('http://localhost:3000/api/account', { data: id })
+      axios.delete(url + '/api/account', { data: id })
         .then(resp => {
           resolve(resp)
         })
@@ -115,7 +118,7 @@ const actions = {
 
   deleteAllAccounts ({commit}) {
     return new Promise((resolve, reject) => {
-      axios.delete('http://localhost:3000/api/allAccounts')
+      axios.delete(url + '/api/allAccounts')
         .then(resp => {
           resolve(resp)
           commit('DELETE_ALL_ACCOUNTS')
@@ -128,7 +131,7 @@ const actions = {
 
   deleteMultiAccounts ({commit}, listId) {
     return new Promise((resolve, reject) => {
-      axios.delete('http://localhost:3000/api/someAccounts', { data: listId })
+      axios.delete(url + '/api/someAccounts', { data: listId })
         .then(resp => {
           resolve(resp)
         })
@@ -140,7 +143,7 @@ const actions = {
 
   updatePassword ({commit}, data) {
     return new Promise((resolve, reject) => {
-      axios.put('http://localhost:3000/api/passwordForAdmin', data)
+      axios.put(url + '/api/passwordForAdmin', data)
         .then(resp => {
           console.log(resp.data)
           resolve(resp)
@@ -153,7 +156,7 @@ const actions = {
 
   editAccount ({commit}, data) {
     return new Promise((resolve, reject) => {
-      axios.put('http://localhost:3000/api/infoForAdmin', data)
+      axios.put(url + '/api/infoForAdmin', data)
         .then(resp => {
           console.log(resp.data)
           resolve(resp)
@@ -166,7 +169,7 @@ const actions = {
 
   importListAccounts ({commit}, data) {
     return new Promise((resolve, reject) => {
-      axios.post('http://localhost:3000/api/upList', data)
+      axios.post(url + '/api/upList', data)
         .then(resp => {
           resolve(resp)
         })
@@ -178,7 +181,7 @@ const actions = {
 
   getAllCourses ({commit}) {
     return new Promise((resolve, reject) => {
-      axios.get('http://localhost:3000/api/courses')
+      axios.get(url + '/api/courses')
         .then(resp => {
           let courses = resp.data
           console.log('Courses: ', courses)
@@ -194,7 +197,7 @@ const actions = {
 
   getResultSurvey ({commit}, data) {
     return new Promise((resolve, reject) => {
-      axios.post('http://localhost:3000/api/resultById', data)
+      axios.post(url + '/api/resultById', data)
         .then(resp => {
           let result = resp.data
           console.log(result)
@@ -209,7 +212,7 @@ const actions = {
 
   createNewCourse ({commit}, data) {
     return new Promise((resolve, reject) => {
-      axios.post('http://localhost:3000/api/course', data)
+      axios.post(url + '/api/course', data)
         .then(resp => {
           let result = resp.data
           console.log(result)
@@ -224,7 +227,7 @@ const actions = {
 
   deleteCourse ({commit}, courseId) {
     return new Promise((resolve, reject) => {
-      axios.delete('http://localhost:3000/api/course', { data: courseId })
+      axios.delete(url + '/api/course', { data: courseId })
         .then(resp => {
           resolve(resp)
         })
@@ -236,7 +239,7 @@ const actions = {
 
   deleteCourses ({commit}) {
     return new Promise((resolve, reject) => {
-      axios.delete('http://localhost:3000/api/courses')
+      axios.delete(url + '/api/courses')
         .then(resp => {
           commit('DELETE_ALL_COURSES')
           resolve(resp)
@@ -249,7 +252,7 @@ const actions = {
 
   deleteMultiCourses ({commit}, listCourseId) {
     return new Promise((resolve, reject) => {
-      axios.delete('http://localhost:3000/api/someCourses', { data: listCourseId })
+      axios.delete(url + '/api/someCourses', { data: listCourseId })
         .then(resp => {
           resolve(resp)
         })
@@ -261,7 +264,7 @@ const actions = {
 
   getForm ({commit}) {
     return new Promise((resolve, reject) => {
-      axios.get('http://localhost:3000/api/form')
+      axios.get(url + '/api/form')
         .then(resp => {
           let form = resp.data
           commit('GET_FORM', form)
@@ -275,7 +278,7 @@ const actions = {
 
   createNewCriteria ({commit}, data) {
     return new Promise((resolve, reject) => {
-      axios.post('http://localhost:3000/api/criteria', data)
+      axios.post(url + '/api/criteria', data)
         .then(resp => {
           console.log(resp.data)
           resolve(resp)
@@ -288,7 +291,7 @@ const actions = {
 
   checkStatusForm ({commit}) {
     return new Promise((resolve, reject) => {
-      axios.get('http://localhost:3000/api/checkUpdateForm')
+      axios.get(url + '/api/checkUpdateForm')
         .then(resp => {
           let statusForm = resp.data
           commit('STATUS_FORM', statusForm)
@@ -302,7 +305,7 @@ const actions = {
 
   deleteCriteria ({commit}, criteria) {
     return new Promise((resolve, reject) => {
-      axios.delete('http://localhost:3000/api/criteria', { data: criteria })
+      axios.delete(url + '/api/criteria', { data: criteria })
         .then(resp => {
           resolve(resp)
         })
@@ -314,7 +317,7 @@ const actions = {
 
   editCriteria ({commit}, data) {
     return new Promise((resolve, reject) => {
-      axios.put('http://localhost:3000/api/criteria', data)
+      axios.put(url + '/api/criteria', data)
         .then(resp => {
           resolve(resp)
         })
@@ -326,7 +329,7 @@ const actions = {
 
   updateAdminPassword ({commit}, data) {
     return new Promise((resolve, reject) => {
-      axios.put('http://localhost:3000/api/password', data)
+      axios.put(url + '/api/password', data)
         .then(resp => {
           resolve(resp)
         })

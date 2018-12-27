@@ -3,8 +3,8 @@
     <v-flex>
       <v-layout row>
         <v-spacer></v-spacer>
+        <v-btn v-if="selected.length > 0" @click="deleteMultiCourses" color="mainColor" dark class="button-admin">Delete Courses</v-btn>
         <v-btn @click="createNewCourse" color="mainColor" dark class="button-admin">Create New Course</v-btn>
-        <v-btn @click="deleteAllCourses" color="mainColor" dark class="button-admin">Delete All Courses</v-btn>
       </v-layout>
       <v-card id="card-course-overview">
         <v-card-title>
@@ -84,15 +84,6 @@
               <td class="text-xs-left" style="font-weight: 700; color: #43425D">{{ props.item.fullname }}</td>
             </tr>
           </template>
-          <template v-if="selected.length > 0" slot="footer">
-          <td :colspan="headers.length + 1">
-            <v-layout row wrap justify-center>
-              <v-flex xs12>
-                <v-btn color="mainColor" dark @click="deleteMultiCourses">Delete</v-btn>
-              </v-flex>
-            </v-layout>
-          </td>
-        </template>
         </v-data-table>
       </v-card>
     </v-flex>
@@ -146,13 +137,6 @@
         :key="dialog.key">
       </delete-multi-courses>
     </v-dialog>
-    <v-dialog v-model="dialog.deleteAllCourses" max-width="400px">
-      <delete-all-courses
-        @closeDialog='dialog.deleteAllCourses=$event'
-        @snackbarMessage='snackbar.snackbarMessage=$event'
-        @showSnackbar='snackbar.value=$event'>
-      </delete-all-courses>
-    </v-dialog>
   </v-layout>
 </template>
 
@@ -161,7 +145,6 @@ import { mapState } from 'vuex'
 import ViewResultCourse from './ViewResultCourse.vue'
 import CreateNewCourse from './CreateNewCourse.vue'
 import DeleteCourse from './DeleteCourse.vue'
-import DeleteAllCourses from './DeleteAllCourses.vue'
 import DeleteMultiCourses from './DeleteMultiCourses.vue'
 
 export default {
@@ -194,7 +177,6 @@ export default {
         viewResult: false,
         createNewCourse: false,
         deleteCourse: false,
-        deleteAllCourses: false,
         deleteMultiCourses: false,
         key: 0
       },
@@ -245,9 +227,6 @@ export default {
     deleteCourse () {
       this.dialog.deleteCourse = true
     },
-    deleteAllCourses () {
-      this.dialog.deleteAllCourses = true
-    },
     toggleAll () {
       if (this.check === true) {
         this.check = false
@@ -270,7 +249,6 @@ export default {
     viewResult: ViewResultCourse,
     createNewCourse: CreateNewCourse,
     deleteCourse: DeleteCourse,
-    deleteAllCourses: DeleteAllCourses,
     deleteMultiCourses: DeleteMultiCourses
   },
   watch: {

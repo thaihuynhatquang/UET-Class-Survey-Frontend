@@ -2,6 +2,9 @@ const axios = require('axios')
 
 const namespaced = true
 
+const url = 'http://localhost:3000'
+// const url = 'https://uet-class-survey-backend.herokuapp.com'
+
 const state = {
   courses: [],
   totalCourses: 0,
@@ -12,6 +15,7 @@ const mutations = {
   'SET_COURSES' (state, courses) {
     if (courses === undefined || courses.length === 0) {
       state.courses = []
+      state.totalCourses = 0
       return
     }
     state.courses = courses
@@ -29,7 +33,7 @@ const mutations = {
 const actions = {
   getCourses ({commit}) {
     return new Promise((resolve, reject) => {
-      axios.get('http://localhost:3000/api/courses')
+      axios.get(url + '/api/courses')
         .then(resp => {
           let courses = resp.data
           commit('SET_COURSES', courses)
@@ -43,7 +47,7 @@ const actions = {
   },
   getForms ({commit}) {
     return new Promise((resolve, reject) => {
-      axios.get('http://localhost:3000/api/form')
+      axios.get(url + '/api/form')
         .then(resp => {
           let form = resp.data
           commit('SET_FORMS', form)
@@ -56,7 +60,7 @@ const actions = {
   },
   sendSurvey ({commit}, data) {
     return new Promise((resolve, reject) => {
-      axios.post('http://localhost:3000/api/report', data)
+      axios.post(url + '/api/report', data)
         .then(resp => {
           console.log(resp)
           // commit('SEND_SURVEY', token)
@@ -69,7 +73,7 @@ const actions = {
   },
   changeAvatar ({commit}, data) {
     return new Promise((resolve, reject) => {
-      axios.put('http://localhost:3000/api/upAvatar', data)
+      axios.put(url + '/api/upAvatar', data)
         .then(resp => {
           resolve(resp)
         })
@@ -80,7 +84,7 @@ const actions = {
   },
   editInformation ({commit}, data) {
     return new Promise((resolve, reject) => {
-      axios.put('http://localhost:3000/api/info', data)
+      axios.put(url + '/api/info', data)
         .then(resp => {
           resolve(resp)
         })
@@ -91,7 +95,7 @@ const actions = {
   },
   updatePassword ({commit}, data) {
     return new Promise((resolve, reject) => {
-      axios.put('http://localhost:3000/api/password', data)
+      axios.put(url + '/api/password', data)
         .then(resp => {
           resolve(resp)
         })

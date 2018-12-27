@@ -2,11 +2,14 @@
 
 const axios = require('axios')
 
+const url = 'http://localhost:3000'
+// const url = 'https://uet-class-survey-backend.herokuapp.com'
+
 export default {
   login ({commit}, user) {
     return new Promise((resolve, reject) => {
       commit('AUTH_REQUEST')
-      axios.post('http://localhost:3000/api/login', user)
+      axios.post(url + '/api/login', user)
         .then(resp => {
           const token = resp.data.token
           localStorage.setItem('token', token)
@@ -31,7 +34,7 @@ export default {
         .catch(err => {
           localStorage.removeItem('token')
           commit('AUTH_ERROR')
-          console.log(err.response.data)
+          console.log(err.response)
           reject(err)
         })
     })
@@ -50,7 +53,7 @@ export default {
 
   getUser ({commit}) {
     return new Promise((resolve, reject) => {
-      axios.get('http://localhost:3000/api/profile')
+      axios.get(url + '/api/profile')
         .then(resp => {
           let data = resp.data
           commit('SET_USER', data)

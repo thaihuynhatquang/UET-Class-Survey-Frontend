@@ -3,9 +3,9 @@
     <v-flex>
       <v-layout row>
         <v-spacer/>
+        <v-btn v-if="selected.length > 0" @click="dialog.deleteMultiAccounts=true" color="mainColor" dark class="button-admin">Delete Accounts</v-btn>
         <v-btn @click="[dialog.importListAccounts=true, dialog.key++]" color="mainColor" dark class="button-admin">Import List Accounts</v-btn>
         <v-btn @click="[dialog.createAccount=true, dialog.key++]" color="mainColor" dark class="button-admin">Create New Account</v-btn>
-        <v-btn @click="dialog.deleteAllAccounts=true" color="mainColor" dark class="button-admin">Delete All Accounts</v-btn>
       </v-layout>
       <v-card class="card-course-overview">
         <v-card-title>
@@ -70,15 +70,6 @@
               <td class="text-xs-left" style="font-weight: 700; color: #43425D">{{ props.item.role }}</td>
             </tr>
           </template>
-          <template v-if="selected.length > 0" slot="footer">
-          <td :colspan="headers.length + 1">
-            <v-layout row wrap justify-center>
-              <v-flex xs12>
-                <v-btn color="mainColor" dark @click="deleteMultiAccounts">Delete</v-btn>
-              </v-flex>
-            </v-layout>
-          </td>
-        </template>
         </v-data-table>
       </v-card>
     </v-flex>
@@ -146,13 +137,6 @@
         :userInfo="userInfo">
       </edit-account>
     </v-dialog>
-    <v-dialog v-model="dialog.deleteAllAccounts" max-width="400px">
-      <delete-all-accounts
-        @closeDialog='dialog.deleteAllAccounts=$event'
-        @snackbarMessage='snackbar.snackbarMessage=$event'
-        @showSnackbar='snackbar.value=$event'>
-      </delete-all-accounts>
-    </v-dialog>
   </v-layout>
 </template>
 
@@ -163,7 +147,6 @@ import DeleteAccount from './DeleteAccount.vue'
 import UpdatePassword from './UpdatePassword.vue'
 import EditAccount from './EditAccount.vue'
 import ImportListAccounts from './ImportListAccounts.vue'
-import DeleteAllAccounts from './DeleteAllAccounts.vue'
 import DeleteMultiAccounts from './DeleteMultiAccounts.vue'
 
 export default {
@@ -202,7 +185,6 @@ export default {
         updatePassword: false,
         editAccount: false,
         importListAccounts: false,
-        deleteAllAccounts: false,
         deleteMultiAccounts: false,
         key: 0
       },
@@ -269,7 +251,6 @@ export default {
     updatePassword: UpdatePassword,
     editAccount: EditAccount,
     importListAccounts: ImportListAccounts,
-    deleteAllAccounts: DeleteAllAccounts,
     deleteMultiAccounts: DeleteMultiAccounts
   },
   watch: {

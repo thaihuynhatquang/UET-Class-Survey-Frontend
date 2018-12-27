@@ -41,6 +41,7 @@ export default {
           this.$emit('showSnackbar', showSnackbar)
           this.$store.dispatch('admin/getAllAccounts')
           this.$store.dispatch('admin/getAllCourses')
+          this.$store.dispatch('admin/checkStatusForm')
         })
     }
   }
